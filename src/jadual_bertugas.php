@@ -1,4 +1,23 @@
 <?php
+require_once '../config/conn.php';
+
+$rekodOOO = [];
+$query = "
+SELECT
+    id,
+    nama,
+    tarikh,
+    jenis
+FROM eroses.rekod_ooo
+";
+$result = $conn->query($query);
+
+while($row = $result->fetch_assoc()) {
+    $rekodOOO[] = $row;
+}
+?>
+
+<?php
 
 // =====================================
 // STAFF
@@ -16,7 +35,8 @@ $masterListMei = [
 $masterListJun = [
     'Hafiz',
     'Fareisya',
-    'Iffa'
+    'Iffa',
+    'Raja'
 ];
 
 
@@ -28,24 +48,6 @@ $minimumOfficeStaff = 3;
 // OOO RECORD
 // =====================================
 
-$rekodOOO = [
-
-    ['nama'=>'Iffa','tarikh'=>'2026-05-28','jenis'=>'Cuti'],
-    ['nama'=>'Iffa','tarikh'=>'2026-05-29','jenis'=>'Cuti'],
-
-    ['nama'=>'Hafiz','tarikh'=>'2026-05-13','jenis'=>'WFH'],
-
-    ['nama'=>'Fareisya','tarikh'=>'2026-05-26','jenis'=>'Cuti'],
-    ['nama'=>'Fareisya','tarikh'=>'2026-05-28','jenis'=>'Cuti'],
-
-    ['nama'=>'Fareisya','tarikh'=>'2026-05-18','jenis'=>'WFH'],
-
-    ['nama'=>'Fareisya','tarikh'=>'2026-05-25','jenis'=>'Cuti Ganti'],
-
-    ['nama'=>'Iffa','tarikh'=>'2026-05-20','jenis'=>'WFH'],
-
-    ['nama'=>'Hafiz','tarikh'=>'2026-05-21','jenis'=>'WFH'],
-];
 
 
 // =====================================
@@ -155,7 +157,11 @@ function dapatkanStatusHariIni(
 
         if($r['tarikh'] == $tarikh){
 
-            $statusOrang[$r['nama']] = $r['jenis'];
+            $statusOrang[$r['nama']] = [
+
+                'id'    => $r['id'],
+                'jenis' => $r['jenis']
+            ];
         }
     }
 
@@ -165,8 +171,9 @@ function dapatkanStatusHariIni(
 
             $ooo[] = [
 
-                'nama' => $nama,
-                'jenis' => $statusOrang[$nama]
+                'id'    => $statusOrang[$nama]['id'],
+                'nama'  => $nama,
+                'jenis' => $statusOrang[$nama]['jenis']
             ];
 
         } else {
@@ -181,437 +188,230 @@ function dapatkanStatusHariIni(
         'ooo' => $ooo
     ];
 }
-
+include("includes/header.php");
 ?>
 
-<!DOCTYPE html>
-<html lang="ms">
-
-<head>
-
-<meta charset="UTF-8">
-
-<title>Office Calendar</title>
-
-<link
-    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
-    rel="stylesheet"
->
-
-<style>
-
-    body{
-
-        background:#f5f7fb;
-
-        font-family:
-            Inter,
-            "Segoe UI",
-            sans-serif;
-
-        color:#1e293b;
-    }
-
-    .page-title{
-
-        font-size:1.8rem;
-        font-weight:700;
-
-        letter-spacing:-0.5px;
-    }
-
-    .sub-title{
-
-        font-size:0.92rem;
-        color:#64748b;
-    }
-
-    .calendar-container{
-
-        display:grid;
-        grid-template-columns:repeat(7,1fr);
-        gap:12px;
-    }
-
-    .day-label{
-
-        text-align:center;
-
-        font-size:0.82rem;
-        font-weight:600;
-
-        color:#94a3b8;
-
-        padding:8px 0;
-    }
-
-    .calendar-day{
-
-        background:white;
-
-        border:1px solid #e2e8f0;
-
-        border-radius:16px;
-
-        min-height:185px;
-
-        padding:14px;
-
-        transition:0.2s ease;
-    }
-
-    .calendar-day:hover{
-
-        transform:translateY(-2px);
-
-        box-shadow:
-            0 10px 25px rgba(0,0,0,0.05);
-    }
-
-    .today{
-
-        border:2px solid #2563eb;
-    }
-
-    .cuti-umum{
-
-        background:#fef9c3;
-        border-color:#fde047;
-    }
-
-    .weekend{
-
-        background:#fafafa;
-    }
-
-    .critical{
-
-        border-top:6px solid #dc2626;
-        background:#fef2f2;
-    }
-
-    .day-top{
-
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-
-        margin-bottom:12px;
-    }
-
-    .day-number{
-
-        font-size:1.35rem;
-        font-weight:700;
-    }
-
-    .headcount{
-
-        font-size:0.72rem;
-
-        background:#eff6ff;
-        color:#2563eb;
-
-        padding:4px 8px;
-
-        border-radius:999px;
-
-        font-weight:600;
-    }
-
-    .person{
-
-        font-size:0.84rem;
-
-        padding:7px 10px;
-
-        border-radius:10px;
-
-        margin-bottom:6px;
-
-        line-height:1.35;
-    }
-
-    .hadir{
-
-        color:#334155;
-    }
-
-    .cuti{
-
-        background:#7e22ce;
-        color:white;
-    }
-
-    .wfh{
-
-        background:#ea580c;
-        color:white;
-    }
-
-    .ganti{
-
-        background:#4f46e5;
-        color:white;
-    }
-
-    .warning{
-
-        margin-top:12px;
-
-        background:#dc2626;
-        color:white;
-
-        border-radius:10px;
-
-        padding:8px 10px;
-
-        text-align:center;
-
-        font-size:0.75rem;
-        font-weight:700;
-
-        letter-spacing:0.3px;
-    }
-
-    .backup-box{
-
-        margin-top:10px;
-
-        background:#0f766e;
-        color:white;
-
-        border-radius:10px;
-
-        padding:8px 10px;
-
-        font-size:0.75rem;
-        font-weight:700;
-    }
-
-    .month-header{
-
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-
-        margin-bottom:20px;
-    }
-
-    .month-title{
-
-        font-size:1.15rem;
-        font-weight:700;
-    }
-
-    .month-note{
-
-        font-size:0.78rem;
-
-        background:#e0f2fe;
-        color:#0369a1;
-
-        padding:5px 10px;
-
-        border-radius:999px;
-    }
-
-    .cuti-title{
-
-        font-size:0.95rem;
-        font-weight:700;
-
-        margin-top:25px;
-    }
-
-    .cuti-name{
-
-        margin-top:5px;
-
-        font-size:0.85rem;
-        color:#854d0e;
-    }
-
-    .duty-box{
-
-        margin-top:35px;
-
-        padding:10px;
-
-        border-radius:12px;
-
-        background:#eff6ff;
-
-        text-align:center;
-    }
-
-    .duty-label{
-
-        font-size:0.7rem;
-        font-weight:700;
-
-        color:#2563eb;
-
-        letter-spacing:0.5px;
-    }
-
-    .duty-name{
-
-        font-size:0.95rem;
-        font-weight:700;
-
-        margin-top:3px;
-    }
-
-    .off-day{
-
-        margin-top:50px;
-
-        text-align:center;
-
-        font-size:0.85rem;
-        font-weight:600;
-
-        color:#94a3b8;
-    }
-
-    .ooo-log{
-
-        background:white;
-
-        border-radius:16px;
-
-        border:1px solid #e2e8f0;
-
-        padding:18px;
-    }
-
-    .ooo-title{
-
-        font-size:0.95rem;
-        font-weight:700;
-
-        margin-bottom:15px;
-    }
-
-    .ooo-item{
-
-        border-radius:12px;
-
-        padding:10px 12px;
-
-        margin-bottom:10px;
-
-        font-size:0.82rem;
-    }
-
-    .ooo-date{
-
-        opacity:0.8;
-        font-size:0.74rem;
-
-        margin-top:2px;
-    }
-
-</style>
-
-</head>
-
-<body>
-
+<div class="page-body">
 <div class="container-fluid py-4 px-4">
 
-    <!-- HEADER -->
-    <div class="d-flex justify-content-between align-items-center mb-4">
+  
+    <div class="row mb-4">
+        <div class="col-md-8">
+            <div class="duty-hero">
 
-        <div>
+                <div class="d-flex justify-content-between align-items-center">
 
-            <div class="page-title">
+                    <div>
 
-                Office Calendar
+                        <div class="duty-label">
+                            <i class="bi bi-calendar-check me-1"></i>
+                            BERTUGAS AHAD INI
+                        </div>
+
+                        <div class="duty-date">
+                            <?= date('d F Y', strtotime('next sunday')) ?>
+                        </div>
+
+                        <div class="duty-name">
+                            <?= $ahadDuty[date('Y-m-d', strtotime('next sunday'))] ?? 'Tiada' ?>
+                        </div>
+
+                    </div>
+
+                    <div class="duty-icon">
+                        👨‍💻
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+        
+        <div class="col-md-4 d-flex align-items-start justify-content-md-end gap-2 month-nav">
+            <a href="#mei" class="nav-link-custom">Mei</a>
+            <a href="#jun" class="nav-link-custom">Jun</a>
+            <a href="#julai" class="nav-link-custom">Julai</a>
+        </div>
+    </div>
+    <?php
+
+        $totalWFH = 0;
+        $totalCuti = 0;
+
+        foreach($rekodOOO as $r){
+
+            if(stripos($r['jenis'],'WFH') !== false){
+                $totalWFH++;
+            }else{
+                $totalCuti++;
+            }
+        }
+
+        $totalStaff = count($masterListJun);
+
+    ?>
+    
+    <div class="row g-4">
+
+        <!-- LEFT -->
+        <div class="col-md-3">
+           <div class="sidebar-card">
+
+            <div class="sidebar-title">
+                Pengurusan OOO
+            </div>
+
+            <button
+                class="btn btn-primary btn-ooo w-100"
+                data-bs-toggle="modal"
+                data-bs-target="#modalOOO">
+
+                <i class="bi bi-plus-circle me-2"></i>
+                Rekod Baharu
+
+            </button>
+
+        </div>
+
+
+        <div class="sidebar-card">
+
+            <div class="sidebar-title">
+                Ringkasan
+            </div>
+
+            <div class="stat-row">
+
+                <span>🏠 WFH</span>
+
+                <span class="stat-value text-warning">
+                    <?= $totalWFH ?>
+                </span>
 
             </div>
 
-            <div class="sub-title">
+            <div class="stat-row">
 
-                Monitor kehadiran staf harian
+                <span>🏖️ Cuti</span>
+
+                <span class="stat-value text-purple">
+                    <?= $totalCuti ?>
+                </span>
+
+            </div>
+
+            <div class="stat-row">
+
+                <span>👥 Staf</span>
+
+                <span class="stat-value text-primary">
+                    <?= count($masterListJun) ?>
+                </span>
 
             </div>
 
         </div>
 
-    </div>
 
+        <div class="sidebar-card">
 
-    <div class="row g-4">
+            <div class="sidebar-title">
+                Aktiviti Terkini
+            </div>
 
-        <!-- LEFT -->
-        <div class="col-md-2">
+            <?php foreach(array_reverse($rekodOOO) as $r): ?>
 
-            <div class="ooo-log">
+                <?php
 
-                <div class="ooo-title">
-
-                    Rekod OOO
-
-                </div>
-
-                <?php foreach($rekodOOO as $r):
-
-                    $class = 'cuti';
-
-                    if(
-                        stripos($r['jenis'],'WFH')
-                        !== false
-                    ){
-
-                        $class = 'wfh';
-
-                    } elseif(
-                        stripos($r['jenis'],'Ganti')
-                        !== false
-                    ){
-
-                        $class = 'ganti';
-                    }
+                $icon =
+                    stripos($r['jenis'],'WFH') !== false
+                    ? '🏠'
+                    : '🏖️';
 
                 ?>
 
-                <div class="ooo-item <?= $class ?>">
+                <div class="activity-item">
 
-                    <div>
+                    <div class="activity-icon">
 
-                        <?= $r['nama'] ?>
+                        <?= $icon ?>
 
                     </div>
 
-                    <div class="ooo-date">
+                    <div>
 
-                        <?= date(
-                            'd/m/Y',
-                            strtotime($r['tarikh'])
-                        ) ?>
+                        <div
+                            style="
+                            font-weight:600;
+                            font-size:.85rem;">
 
-                        ·
+                            <?= $r['nama'] ?>
 
-                        <?= $r['jenis'] ?>
+                        </div>
+
+                        <div
+                            style="
+                            font-size:.75rem;
+                            color:#64748b;">
+
+                            <?= date('d M', strtotime($r['tarikh'])) ?>
+
+                            •
+
+                            <?= $r['jenis'] ?>
+
+                        </div>
 
                     </div>
 
                 </div>
 
-                <?php endforeach; ?>
+            <?php endforeach; ?>
 
-            </div>
+        </div>
+            
 
         </div>
 
 
         <!-- RIGHT -->
-        <div class="col-md-10">
+        <div class="col-md-9">
+
+            <div class="card border-0 shadow-sm mb-4">
+                <div class="card-body py-2">
+
+                    <div class="d-flex flex-wrap gap-2">
+
+                        <span class="badge bg-secondary">
+                            Hadir
+                        </span>
+
+                        <span class="badge text-dark"
+                            style="background:#ffedd5;">
+                            WFH
+                        </span>
+
+                        <span class="badge text-dark"
+                            style="background:#ede9fe;">
+                            Cuti
+                        </span>
+
+                        <span class="badge text-dark"
+                            style="background:#e0e7ff;">
+                            Ganti
+                        </span>
+
+                        <span class="badge bg-success">
+                            Backup
+                        </span>
+
+                    </div>
+
+                </div>
+            </div>        
+            <div class="col-md-12">
 
             <?php
-
             foreach(
                 [
                     5 => 'Mei',
@@ -620,406 +420,259 @@ function dapatkanStatusHariIni(
                 ]
                 as $bulan_n => $nama_b
             ):
-
-                $objek =
-                    new DateTime("2026-$bulan_n-01");
-
-                if($bulan_n == 5){
-
-                    $currentMasterList =
-                        $masterListMei;
-
-                } else {
-
-                    $currentMasterList =
-                        $masterListJun;
-                }
-
+                $objek = new DateTime("2026-$bulan_n-01");
+                $currentMasterList = ($bulan_n == 5) ? $masterListMei : $masterListJun;
             ?>
 
-            <div class="mb-5">
-
-                <!-- MONTH -->
+            <div class="mb-5" id="<?= strtolower($nama_b) ?>">
                 <div class="month-header">
-
-                    <div class="month-title">
-
-                        <?= $nama_b ?> 2026
-
-                    </div>
-
+                    <div class="month-title"><?= $nama_b ?> 2026</div>
                     <?php if($bulan_n >= 6): ?>
-
-                    <div class="month-note">
-
-                        3 staf aktif
-
-                    </div>
-
+                        <div class="month-note">3 staf aktif</div>
                     <?php endif; ?>
-
                 </div>
 
-
-                <!-- DAYS -->
                 <div class="calendar-container mb-2">
-
-                    <?php
-
-                    foreach(
-                        [
-                            'Isnin',
-                            'Selasa',
-                            'Rabu',
-                            'Khamis',
-                            'Jumaat',
-                            'Sabtu',
-                            'Ahad'
-                        ]
-                        as $hari
-                    ):
-
-                    ?>
-
-                    <div class="day-label">
-
-                        <?= $hari ?>
-
-                    </div>
-
+                    <?php foreach(['Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu','Ahad'] as $hari): ?>
+                        <div class="day-label"><?= $hari ?></div>
                     <?php endforeach; ?>
-
                 </div>
 
-
-                <!-- GRID -->
                 <div class="calendar-container">
-
                     <?php
-
-                    for(
-                        $k=1;
-                        $k<$objek->format('N');
-                        $k++
-                    ){
-
-                        echo '
-                        <div class="calendar-day weekend"></div>
-                        ';
+                    for($k=1; $k<$objek->format('N'); $k++){
+                        echo '<div class="calendar-day weekend"></div>';
                     }
 
-                    for(
-                        $h=1;
-                        $h<=$objek->format('t');
-                        $h++
-                    ){
-
-                        $tarikh =
-                            "2026-"
-                            .str_pad(
-                                $bulan_n,
-                                2,
-                                '0',
-                                STR_PAD_LEFT
-                            )
-                            ."-"
-                            .str_pad(
-                                $h,
-                                2,
-                                '0',
-                                STR_PAD_LEFT
-                            );
-
-                        $status =
-                            dapatkanStatusHariIni(
-                                $tarikh,
-                                $currentMasterList,
-                                $rekodOOO
-                            );
-
-                        $dn =
-                            (
-                                new DateTime($tarikh)
-                            )->format('N');
-
-                        $jumlahHadir =
-                            count($status['hadir']);
-
-                        // WFH masih working
-                        $jumlahOffice =
-                            $jumlahHadir;
-
-                        foreach(
-                            $status['ooo']
-                            as $o
-                        ){
-
-                            if(
-                                stripos(
-                                    $o['jenis'],
-                                    'WFH'
-                                ) !== false
-                            ){
-
-                                $jumlahOffice++;
-                            }
+                    for($h=1; $h<=$objek->format('t'); $h++){
+                        $tarikh = "2026-".str_pad($bulan_n, 2, '0', STR_PAD_LEFT)."-".str_pad($h, 2, '0', STR_PAD_LEFT);
+                        $status = dapatkanStatusHariIni($tarikh, $currentMasterList, $rekodOOO);
+                        $dn = (new DateTime($tarikh))->format('N');
+                        
+                        // Kira staf hadir/wfh/backup
+                        $jumlahHadir = count($status['hadir']);
+                        $jumlahOffice = $jumlahHadir;
+                        foreach($status['ooo'] as $o) {
+                            if(stripos($o['jenis'], 'WFH') !== false) { $jumlahOffice++; }
                         }
-
-                        // Backup dikira masuk office
-                        if(
-                            array_key_exists(
-                                $tarikh,
-                                $backupStaff
-                            )
-                        ){
-
-                            $jumlahOffice++;
-                        }
+                        if(array_key_exists($tarikh, $backupStaff)) { $jumlahOffice++; }
 
                         $today = date('Y-m-d');
-
+                        $is_cuti_umum = array_key_exists($tarikh, $senaraiCuti);
+                        
+                        // Logic CSS Classes
                         $kelas = '';
-
-                        $is_cuti_umum =
-                            array_key_exists(
-                                $tarikh,
-                                $senaraiCuti
-                            );
-
-                        if($dn == 6){
-
-                            // Sabtu
-                            $kelas .= ' weekend';
-
-                        } elseif($dn == 7){
-
-                            // Ahad
-                            $kelas .= ' weekend';
-                        }
-
-                        if($is_cuti_umum){
-
-                            $kelas .= ' cuti-umum';
-                        }
-
-                        if(
-                            !$is_cuti_umum
-                            &&
-                            $dn < 6
-                            &&
-                            $jumlahOffice
-                            < $minimumOfficeStaff
-                        ){
-
-                            $kelas .= ' critical';
-                        }
-
-                        if($tarikh == $today){
-
-                            $kelas .= ' today';
-                        }
-
+                        if($dn == 6 || $dn == 7) { $kelas .= ' weekend'; }
+                        if($is_cuti_umum) { $kelas .= ' cuti-umum'; }
+                        
+                        // HANYA tambah 'overstaffed' (hijau) jika bukan cuti/weekend & staff >= 4
+                        if (!$is_cuti_umum && $dn < 6 && $jumlahOffice >= 4) { $kelas .= ' overstaffed'; }
+                        
+                        // HANYA tambah 'critical' jika kurang staf
+                        if (!$is_cuti_umum && $dn < 6 && $jumlahOffice < $minimumOfficeStaff) { $kelas .= ' critical'; }
+                        
+                        if($tarikh == $today) { $kelas .= ' today'; }
                     ?>
 
-                    <div class="calendar-day <?= $kelas ?>">
-
-                        <!-- TOP -->
+                    <div
+                        class="calendar-day <?= $kelas ?>"
+                        data-tarikh="<?= $tarikh ?>"
+                        style="cursor:pointer;">
+                        <div class="quick-add">
+                            <i class="bi bi-plus-lg"></i>
+                        </div>
                         <div class="day-top">
+                            <div class="day-number"><?= $h ?></div>
+                            
+                            <?php if(!$is_cuti_umum && $dn < 6): ?>
+                                <?php if($jumlahOffice >= 4): ?>
+                                    <span class="badge rounded-pill bg-success" style="font-size: 0.6rem;">Available</span>
+                                <?php else: ?>
+                                   <?php
 
-                            <div class="day-number">
+                                        $peratus =
+                                        (
+                                            $jumlahOffice /
+                                            count($currentMasterList)
+                                        )
+                                        *
+                                        100;
 
-                                <?= $h ?>
+                                    ?>
+                                    <div class="mt-1">
 
-                            </div>
+                                        <small class="fw-bold">
+                                            <?= $jumlahOffice ?>/<?= count($currentMasterList) ?>
+                                        </small>
 
-                            <?php
-                            if(
-                                !$is_cuti_umum
-                                &&
-                                $dn < 6
-                            ):
-                            ?>
+                                        <div class="availability-bar">
 
-                            <div class="headcount">
+                                            <div
+                                                class="availability-fill"
+                                                style="width:<?= $peratus ?>%">
+                                            </div>
 
-                                <?= $jumlahOffice ?>
-                                /
-                                <?= count($currentMasterList) ?>
+                                        </div>
 
-                            </div>
-
+                                    </div>
+                                <?php endif; ?>
                             <?php endif; ?>
-
                         </div>
 
-
-                        <!-- CUTI -->
                         <?php if($is_cuti_umum): ?>
-
-                        <div class="cuti-title">
-
-                            CUTI UMUM
-
-                        </div>
-
-                        <div class="cuti-name">
-
-                            <?= $senaraiCuti[$tarikh] ?>
-
-                        </div>
-
-
-                        <!-- SABTU -->
+                            <div class="cuti-title"><i class="bi bi-balloon-fill"></i> CUTI UMUM</div>
+                            <div class="cuti-name"><?= $senaraiCuti[$tarikh] ?></div>
                         <?php elseif($dn == 6): ?>
-
-                        <div class="off-day">
-
-                            Tiada Operasi
-
-                        </div>
-
-
-                        <!-- AHAD -->
+                            <div class="off-day">YEAY SABTU!!</div>
                         <?php elseif($dn == 7): ?>
-
-                        <div class="duty-box">
-
-                            <div class="duty-label">
-
-                                BERTUGAS
-
+                            <div class="duty-box">
+                                <div class="duty-label">BERTUGAS</div>
+                                <div class="duty-name"><?= $ahadDuty[$tarikh] ?? '-' ?></div>
                             </div>
-
-                            <div class="duty-name">
-
-                                <?= $ahadDuty[$tarikh] ?? '-' ?>
-
-                            </div>
-
-                        </div>
-
-
-                        <!-- WEEKDAY -->
                         <?php else: ?>
-
-                            <?php
-                            foreach(
-                                $status['hadir']
-                                as $nama
-                            ):
-                            ?>
-
-                            <div class="person hadir">
-
-                                <?= $nama ?>
-
-                            </div>
-
+                            <?php foreach($status['hadir'] as $nama): ?>
+                                <div class="person hadir">
+                                    <span>
+                                       
+                                        <?= $nama ?>
+                                    </span>
+                                </div>
                             <?php endforeach; ?>
-
-
-                            <?php
-
-                            foreach(
-                                $status['ooo']
-                                as $o
-                            ):
-
-                                $class = 'cuti';
-
-                                if(
-                                    stripos(
-                                        $o['jenis'],
-                                        'WFH'
-                                    ) !== false
-                                ){
-
-                                    $class = 'wfh';
-
-                                } elseif(
-                                    stripos(
-                                        $o['jenis'],
-                                        'Ganti'
-                                    ) !== false
-                                ){
-
-                                    $class = 'ganti';
-                                }
-
+                            <?php foreach($status['ooo'] as $o): 
+                                $class = (stripos($o['jenis'],'WFH') !== false) ? 'wfh' : ((stripos($o['jenis'],'Ganti') !== false) ? 'ganti' : 'cuti');
                             ?>
-
-                            <div class="person <?= $class ?>">
-
-                                <?= $o['nama'] ?>
-
-                                <span
-                                    style="
-                                        opacity:0.85;
-                                        font-size:0.72rem;
-                                        margin-left:4px;
-                                    "
-                                >
-                                    (<?= $o['jenis'] ?>)
-                                </span>
-
-                            </div>
-
+                                <div class="person <?= $class ?> person-click" data-id="<?= $o['id'] ?>" data-nama="<?= $o['nama'] ?>" data-jenis="<?= $o['jenis'] ?>" data-tarikh="<?= $tarikh ?>">
+                                    <?= $o['nama'] ?> <span style="opacity:0.85; font-size:0.72rem; margin-left:4px;">(<?= $o['jenis'] ?>)</span>
+                                </div>
                             <?php endforeach; ?>
-
-
-                            <?php
-                            if(
-                                $jumlahOffice
-                                <
-                                $minimumOfficeStaff
-                            ):
-                            ?>
-
-                            <div class="warning">
-
-                                ⚠️ KURANG TENAGA
-                                <br>
-
-                                <?= $jumlahOffice ?>
-                                /
-                                <?= $minimumOfficeStaff ?>
-
-                                staf tersedia
-
-                            </div>
-
+                            <?php if($jumlahOffice < $minimumOfficeStaff): ?>
+                                <div class="warning">⚠️ KURANG TENAGA<br><?= $jumlahOffice ?>/<?= $minimumOfficeStaff ?> staf</div>
                             <?php endif; ?>
-
-
-                            <?php
-                            if(
-                                array_key_exists(
-                                    $tarikh,
-                                    $backupStaff
-                                )
-                            ):
-                            ?>
-
-                            <div class="backup-box">
-
-                                BACKUP:
-                                <?= $backupStaff[$tarikh] ?>
-
-                            </div>
-
+                            <?php if(array_key_exists($tarikh, $backupStaff)): ?>
+                                <div class="backup-box">BACKUP: <?= $backupStaff[$tarikh] ?></div>
                             <?php endif; ?>
-
                         <?php endif; ?>
-
                     </div>
-
                     <?php } ?>
+                </div>
+            </div>
+            <?php endforeach; ?>
+        </div>
+
+           
+
+        </div>
+
+    </div>
+
+</div>
+</div>
+<div
+    class="modal fade"
+    id="modalOOO"
+    tabindex="-1">
+                            
+    <div class="modal-dialog">
+
+        <div class="modal-content border-0 shadow">
+
+            <div class="modal-header">
+
+                <h5 id="modal_title">
+                    Rekod OOO
+                </h5>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal">
+                </button>
+
+            </div>
+
+            <div class="modal-body">
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Tarikh
+                    </label>
+
+                    <input
+                        type="date"
+                        id="modal_tarikh"
+                        class="form-control">
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Nama
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="modal_nama">
+
+                        <?php foreach($masterListJun as $staff): ?>
+
+                            <option>
+                                <?= $staff ?>
+                            </option>
+
+                        <?php endforeach; ?>
+
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Jenis
+                    </label>
+
+                    <select
+                        class="form-select"
+                        id="modal_jenis">
+
+                        <option value="WFH">
+                            WFH
+                        </option>
+
+                        <option value="Cuti">
+                            Cuti
+                        </option>
+
+                        <option value="Cuti Ganti">
+                            Cuti Ganti
+                        </option>
+
+                    </select>
 
                 </div>
 
             </div>
 
-            <?php endforeach; ?>
+            <div class="modal-footer">
+                <input type="hidden" id="modal_id">                   
+               <button
+                    id="btnDelete"
+                    class="btn btn-danger me-auto d-none">
+
+                    Padam
+
+                </button>
+
+                <button
+                    id="btnSave"
+                    class="btn btn-primary">
+
+                    Simpan
+
+                </button>
+            </div>
 
         </div>
 
@@ -1027,5 +680,6 @@ function dapatkanStatusHariIni(
 
 </div>
 
-</body>
-</html>
+<?php
+include("includes/footer.php");
+?>

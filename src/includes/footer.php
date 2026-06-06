@@ -68,4 +68,138 @@ $(document).ready(function() {
 
 
 });
+
+$(document).on(
+    'click',
+    '.calendar-day',
+    function(){
+
+        let tarikh =
+            $(this).data('tarikh');
+
+        if(!tarikh){
+            return;
+        }
+
+        $('#modal_title')
+            .text('Tambah Rekod');
+
+        $('#modal_id')
+            .val('');
+
+        $('#modal_tarikh')
+            .val(tarikh);
+
+        $('#modal_nama')
+            .val('');
+
+        $('#modal_jenis')
+            .val('WFH');
+
+        $('#btnDelete')
+            .addClass('d-none');
+
+        $('#modalOOO')
+            .modal('show');
+    }
+);
+
+$(document).on(
+    'click',
+    '.person-click',
+    function(e){
+
+        e.stopPropagation();
+
+        $('#modal_title')
+            .text('Edit Rekod');
+
+        $('#modal_id')
+            .val($(this).data('id'));
+
+        $('#modal_tarikh')
+            .val($(this).data('tarikh'));
+
+        $('#modal_nama')
+            .val($(this).data('nama'));
+
+        $('#modal_jenis')
+            .val($(this).data('jenis'));
+
+        $('#btnDelete')
+            .removeClass('d-none');
+
+        $('#modalOOO')
+            .modal('show');
+    }
+);
+
+$('#btnSave').click(function(){
+
+    $.ajax({
+
+        url:'ajax/save_ooo.php',
+
+        method:'POST',
+
+        data:{
+
+            id:
+                $('#modal_id').val(),
+
+            nama:
+                $('#modal_nama').val(),
+
+            tarikh:
+                $('#modal_tarikh').val(),
+
+            jenis:
+                $('#modal_jenis').val()
+        },
+
+        success:function(){
+
+            location.reload();
+        }
+    });
+});
+
+$('#btnDelete').click(function(){
+
+    Swal.fire({
+
+        title:'Padam rekod?',
+
+        icon:'warning',
+
+        showCancelButton:true
+
+    }).then((result)=>{
+
+        if(!result.isConfirmed){
+            return;
+        }
+
+        $.ajax({
+
+            url:'ajax/delete_ooo.php',
+
+            method:'POST',
+
+            data:{
+
+                id:
+                $('#modal_id').val()
+            },
+
+            success:function(){
+
+                location.reload();
+            }
+        });
+
+    });
+
+});
 </script>
+

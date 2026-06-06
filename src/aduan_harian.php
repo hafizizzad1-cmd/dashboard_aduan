@@ -143,6 +143,11 @@ include("includes/header.php");
                         <div class="card-body">
                             <?php 
                             $target_harian = 15; 
+                            // 1. Senaraikan staf yang perlu duduk di bawah
+                            $kumpulan_bawah = ['Syida', 'Hani', 'Fiza', 'Affi', 'Laili'];
+                            
+                            $html_atas = '';
+                            $html_bawah = '';
 
                             foreach ($senarai_staf as $nama_staf) { 
                                 $jumlah_siap = (int)$row[$nama_staf];
@@ -150,11 +155,13 @@ include("includes/header.php");
                                 if ($jumlah_siap == 0) continue;
                                 
                                 $peratus_visual = min(($jumlah_siap / $target_harian) * 100, 100);
+                                $is_top_scorer = ($jumlah_siap == $highest_score && $highest_score > 0);
                                 
-                                if ($jumlah_siap > $target_harian) {
+                                // 2. Logik Warna Baru
+                                if ($is_top_scorer) {
                                     $warna_bar = "bg-purple";
                                     $warna_teks = "text-purple";
-                                } elseif ($jumlah_siap == $target_harian) {
+                                } elseif ($jumlah_siap >= $target_harian) {
                                     $warna_bar = "bg-success";
                                     $warna_teks = "text-success";
                                 } elseif ($jumlah_siap >= ($target_harian / 2)) {
@@ -165,26 +172,44 @@ include("includes/header.php");
                                     $warna_teks = "text-dark"; 
                                 }
 
-                                $is_top_scorer = ($jumlah_siap == $highest_score && $highest_score > 0);
                                 $class_nama = $is_top_scorer ? "top-scorer-name" : "text-muted";
                                 $class_skor = $is_top_scorer ? "top-scorer-score $warna_teks" : "$warna_teks";
                                 $ikon_top = $is_top_scorer ? '<i class="bi bi-star-fill text-warning me-1" style="font-size: 0.7rem;"></i>' : '';
-                            ?>
+                                
+                                // Bina blok HTML untuk staf ini
+                                $staf_html = '
                                 <div class="staff-mini-stat">
                                     <div class="d-flex justify-content-between align-items-center mb-1">
-                                        <span class="<?php echo $class_nama; ?>">
-                                            <?php echo $ikon_top . $nama_staf; ?>
+                                        <span class="' . $class_nama . '">
+                                            ' . $ikon_top . $nama_staf . '
                                         </span> 
-                                        <span class="<?php echo $class_skor; ?>">
-                                            <?php echo $jumlah_siap; ?>/<?php echo $target_harian; ?>
+                                        <span class="' . $class_skor . '">
+                                            ' . $jumlah_siap . '/' . $target_harian . '
                                         </span>
                                     </div>
                                     <div class="progress">
-                                        <div class="progress-bar <?php echo $warna_bar; ?>" style="width: <?php echo $peratus_visual; ?>%"></div>
+                                        <div class="progress-bar ' . $warna_bar . '" style="width: ' . $peratus_visual . '%"></div>
                                     </div>
-                                </div>
-                            <?php 
+                                </div>';
+
+                                // Asingkan mengikut kumpulan
+                                if (in_array($nama_staf, $kumpulan_bawah)) {
+                                    $html_bawah .= $staf_html;
+                                } else {
+                                    $html_atas .= $staf_html;
+                                }
                             } 
+                            
+                            // Paparkan kumpulan atas (staf biasa)
+                            echo $html_atas;
+                            
+                            // Tambah garisan pembahagi jika kedua-dua kumpulan ada rekod pada hari tersebut
+                            if (!empty($html_atas) && !empty($html_bawah)) {
+                                echo '<hr class="my-3 border-secondary opacity-25">';
+                            }
+                            
+                            // Paparkan kumpulan bawah (Syida, Hani, Fiza, Affi, Laili)
+                            echo $html_bawah;
                             ?>
                         </div>
 

@@ -44,6 +44,9 @@
 	
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
+
 
 
 	<style>
@@ -426,7 +429,478 @@
             border-radius: 0.375rem;
             transition: all 0.3s;
         }
-		
+
+		 
+    /* Layout Calendar */
+    .calendar-container {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 8px;
+    }
+
+    .calendar-day {
+        background: var(--card-bg);
+        border: none;
+        border-radius: 12px;
+        min-height: 180px;
+        padding: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+		 display:flex;
+    	flex-direction:column;
+    }
+
+    .calendar-day:hover {
+        box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        transform: translateY(-2px);
+    }
+
+    .day-number { font-weight: 700; font-size: 0.9rem; color: var(--text-muted); }
+
+    /* Tags Modern */
+    .person {
+        font-size: 0.75rem;
+        padding: 4px 8px;
+        border-radius: 6px;
+        margin-bottom: 4px;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .hadir { background: #f1f5f9; color: #334155; }
+    .cuti { background: #ede9fe; color: #5b21b6; }
+    .wfh { background: #ffedd5; color: #9a3412; }
+    .ganti { background: #e0e7ff; color: #3730a3; }
+
+    /* Warning Modern */
+    .warning {
+        margin-top: 8px;
+        background: #fee2e2;
+        color: #991b1b;
+        border-radius: 6px;
+        padding: 4px;
+        font-size: 0.65rem;
+        text-align: center;
+        font-weight: 700;
+    }
+
+    .backup-box {
+        margin-top: 5px;
+        background: #dcfce7;
+        color: #166534;
+        border-radius: 6px;
+        padding: 4px;
+        font-size: 0.65rem;
+        font-weight: 700;
+    }
+
+    /* Header Bulan */
+    .month-title { font-size: 1.25rem; font-weight: 800; color: #1e293b; }
+    .month-note { background: #eef2ff; color: #4338ca; font-weight: 600; padding: 2px 10px; font-size: 0.7rem; }
+    
+    .day-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.05em; font-weight: 700; color: #94a3b8; padding-bottom: 5px; }
+
+    
+
+
+    .today{
+
+		border:3px solid #2563eb !important;
+
+		background:#dbeafe !important;
+
+		transform:scale(1.03);
+
+		z-index:5;
+
+		position:relative;
+	}
+
+    /* Navigasi ringkas */
+    .nav-link-custom {
+        background: #fff;
+        padding: 8px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--primary);
+        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* Styling Hari Cuti Umum yang menonjol */
+   /* Kuning lembut untuk Cuti Umum & Sabtu */
+    .cuti-umum, .weekend {
+        background: #fefce8 !important; /* Yellow-50 */
+        border: 1px solid #fef08a !important;
+    }
+
+    /* Hijau border untuk hari yang ada 4 orang ke atas */
+    .overstaffed {
+        border: 2px solid #22c55e !important; /* Green-500 */
+        box-shadow: 0 0 8px rgba(34, 197, 94, 0.2) !important;
+    }
+
+    .cuti-umum .day-number {
+        color: #9f1239 !important;
+        font-weight: 800;
+    }
+
+    .cuti-umum .cuti-title {
+        color: #e11d48;
+        font-size: 0.65rem;
+        text-transform: uppercase;
+    }
+
+    /* Styling untuk Hari Bertugas (Ahad) */
+    .duty-highlight {
+        background: #f0fdfa !important; /* Hijau pastel sangat lembut */
+        border: 2px solid #0f766e !important; /* Border hijau tua */
+    }
+
+    .duty-box {
+        background: #0f766e !important;
+        color: white !important;
+        border-radius: 8px;
+        padding: 6px;
+        margin-top: 10px;
+    }
+
+    .duty-label {
+        font-size: 0.6rem !important;
+        color: #ccfbf1 !important; /* Warna text hijau cerah */
+        letter-spacing: 0.5px;
+    }
+
+    .nav-link-custom {
+        background: #fff;
+        padding: 10px 20px;
+        border-radius: 12px;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--text-main);
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+    }
+
+    .nav-link-custom:hover {
+        background: var(--primary);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+	.duty-hero{
+
+		background:
+			linear-gradient(
+				135deg,
+				#2563eb 0%,
+				#1d4ed8 50%,
+				#1e40af 100%
+			);
+
+		border-radius:24px;
+
+		padding:24px;
+
+		color:white;
+
+		position:relative;
+
+		overflow:hidden;
+
+		box-shadow:
+			0 20px 40px rgba(37,99,235,.25);
+	}
+
+	/* decorative glow */
+	.duty-hero::before{
+
+		content:"";
+
+		position:absolute;
+
+		width:250px;
+		height:250px;
+
+		right:-80px;
+		top:-80px;
+
+		border-radius:50%;
+
+		background:
+			rgba(255,255,255,.08);
+	}
+
+	.duty-hero::after{
+
+		content:"";
+
+		position:absolute;
+
+		width:150px;
+		height:150px;
+
+		right:30px;
+		bottom:-70px;
+
+		border-radius:50%;
+
+		background:
+			rgba(255,255,255,.05);
+	}
+
+	.duty-label{
+
+		font-size:.75rem;
+
+		letter-spacing:2px;
+
+		font-weight:700;
+
+		opacity:.85;
+	}
+
+	.duty-date{
+
+		font-size:1rem;
+
+		margin-top:8px;
+
+		opacity:.9;
+	}
+
+	.duty-name{
+
+		font-size:2rem;
+
+		font-weight:800;
+
+		margin-top:6px;
+
+		line-height:1.1;
+	}
+
+	.duty-icon{
+
+		font-size:4rem;
+
+		opacity:.15;
+
+		line-height:1;
+	}
+	.month-nav{
+
+		position:sticky;
+
+		top:95px;
+
+		z-index:50;
+	}
+
+	.avatar-mini{
+
+		width:22px;
+
+		height:22px;
+
+		border-radius:50%;
+
+		background:#2563eb;
+
+		color:white;
+
+		display:inline-flex;
+
+		align-items:center;
+
+		justify-content:center;
+
+		font-size:11px;
+
+		font-weight:700;
+
+		margin-right:6px;
+	}
+
+	.availability-bar{
+
+		height:6px;
+
+		background:#e5e7eb;
+
+		border-radius:30px;
+
+		overflow:hidden;
+
+		margin-top:4px;
+	}
+
+	.availability-fill{
+
+		height:100%;
+
+		background:
+			linear-gradient(
+				90deg,
+				#22c55e,
+				#16a34a
+			);
+	}
+
+	.activity-item{
+
+    display:flex;
+
+    gap:10px;
+
+    align-items:center;
+
+    padding:10px 0;
+
+    border-bottom:1px solid #f1f5f9;
+	}
+
+	.activity-item:last-child{
+
+		border-bottom:none;
+	}
+
+	.activity-icon{
+
+		width:36px;
+
+		height:36px;
+
+		border-radius:50%;
+
+		background:#f8fafc;
+
+		display:flex;
+
+		align-items:center;
+
+		justify-content:center;
+	}
+
+	.sidebar-card{
+
+    background:#fff;
+
+    border-radius:20px;
+
+    padding:18px;
+
+    margin-bottom:16px;
+
+    box-shadow:
+        0 5px 20px rgba(0,0,0,.05);
+	}
+
+	.sidebar-title{
+
+		font-size:.75rem;
+
+		font-weight:800;
+
+		letter-spacing:1px;
+
+		text-transform:uppercase;
+
+		color:#94a3b8;
+
+		margin-bottom:15px;
+	}
+
+	.btn-ooo{
+
+		border-radius:14px;
+
+		padding:12px;
+
+		font-weight:700;
+	}
+
+	.stat-row{
+
+		display:flex;
+
+		justify-content:space-between;
+
+		align-items:center;
+
+		padding:10px 0;
+
+		border-bottom:1px solid #f1f5f9;
+	}
+
+	.stat-row:last-child{
+
+		border-bottom:none;
+	}
+
+	.stat-value{
+
+		font-size:1.2rem;
+
+		font-weight:800;
+	}
+
+
+	.calendar-day{
+
+    transition:
+        all .25s ease;
+	}
+
+	.calendar-day:hover{
+
+		transform:
+			translateY(-4px);
+
+		box-shadow:
+			0 15px 30px rgba(0,0,0,.08);
+	}
+
+		.quick-add{
+
+		position:absolute;
+
+		top:8px;
+
+		right:8px;
+
+		width:22px;
+
+		height:22px;
+
+		border-radius:50%;
+
+		background:white;
+
+		display:none;
+
+		align-items:center;
+
+		justify-content:center;
+
+		font-size:11px;
+
+		box-shadow:
+			0 2px 10px rgba(0,0,0,.1);
+	}
+
+	.calendar-day:hover .quick-add{
+
+		display:flex;
+	}
+
+	.person-click{
+
+		cursor:pointer;
+	}
 	</style>
 	
 	
@@ -493,7 +967,7 @@
 					</li>
 					
 					<li class="nav-item">
-						<a class="nav-link d-flex align-items-center gap-2 nav-akan-datang" href="">
+						<a class="nav-link d-flex align-items-center gap-2" href="jadual_bertugas.php">
 							<i class="icofont chart-line fs-5"></i> Jadual Bertugas
 						</a>
 					</li>
