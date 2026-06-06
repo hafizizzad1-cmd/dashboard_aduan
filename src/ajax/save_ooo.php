@@ -1,34 +1,44 @@
-$(document).on(
-    'click',
-    '.calendar-day',
-    function(){
+<?php
 
-        let tarikh =
-            $(this).data('tarikh');
+require_once '../../config/conn.php';
 
-        if(!tarikh){
-            return;
-        }
+$id =
+$_POST['id'] ?? '';
 
-        $('#modal_title')
-            .text('Tambah Rekod');
+$nama =
+$_POST['nama'];
 
-        $('#modal_id')
-            .val('');
+$tarikh =
+$_POST['tarikh'];
 
-        $('#modal_tarikh')
-            .val(tarikh);
+$jenis =
+$_POST['jenis'];
 
-        $('#modal_nama')
-            .val('');
+if($id){
 
-        $('#modal_jenis')
-            .val('WFH');
+    $sql = "
+    UPDATE rekod_ooo
+    SET
+        nama=?,
+        tarikh=?,
+        jenis=?
+    WHERE id=?
+    ";
 
-        $('#btnDelete')
-            .addClass('d-none');
+}else{
 
-        $('#modalOOO')
-            .modal('show');
-    }
-);
+    $sql = "
+    INSERT INTO rekod_ooo
+    (
+        nama,
+        tarikh,
+        jenis
+    )
+    VALUES
+    (
+        ?,
+        ?,
+        ?
+    )
+    ";
+}

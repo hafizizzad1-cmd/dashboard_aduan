@@ -68,7 +68,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["full_name"] = $senarai_pengguna[$username]['name'];
                 $_SESSION["role"] = $senarai_pengguna[$username]['role'];                            
                 
-                header("location: index.php");
+                header("location: src/meja_bantuan.php");
                 exit;
             } else {
                 $login_err = "Kata Laluan tidak sah.";

@@ -12,30 +12,35 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 // DATA PENGGUNA HARDCODE (Ganti Database)
 // ==========================================================
 $senarai_pengguna = [
-    '960604105929' => [
-        'password' => 'H@9606', 
+    'Hafiz' => [
+        'password' => 'H@5929', 
         'name' => 'MUHAMMAD HAFIZ IZZAD BIN ABDUL RAZAK', 
-        'role' => 'admin'
+        'role' => 'Helpdesk'
     ],
-    '960909085930' => [
+    'Iffa' => [
         'password' => 'I@5930', 
         'name' => 'IFFA NADHIRA BINTI MOHD HAZANOL', 
-        'role' => 'pegawai'
+        'role' => 'Helpdesk'
     ],
-    '970815145516' => [
+    'Liyaana' => [
         'password' => 'L@5516', 
         'name' => 'Liyaana Shahirah Binti Wan Abd Aziz', 
-        'role' => 'pegawai'
+        'role' => 'Helpdesk'
     ],
-    '990622146334' => [
+    'Fareisya' => [
         'password' => 'F@6334', 
         'name' => 'Fareisya Zulaikha Binti Mohd Sani', 
-        'role' => 'pegawai'
+        'role' => 'Helpdesk'
     ],
-    '950220101111' => [
-        'password' => 'Bos!9502', 
+    'Raja' => [
+        'password' => 'R!5109', 
         'name' => 'Ketua Pengarah (Pengesah)', 
-        'role' => 'pengesah'
+        'role' => 'Developer'
+    ],
+    'Amirul' => [
+        'password' => 'A!1234', 
+        'name' => 'Amirul Adli bin Zaimal', 
+        'role' => 'Project Manager'
     ]
 ];
 
@@ -68,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $_SESSION["full_name"] = $senarai_pengguna[$username]['name'];
                 $_SESSION["role"] = $senarai_pengguna[$username]['role'];                            
                 
-                header("location: index.php");
+                header("location: src/meja_bantuan.php");
                 exit;
             } else {
                 $login_err = "Kata Laluan tidak sah.";
@@ -136,6 +141,68 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         .input-group:focus-within .btn-outline-secondary {
             background-color: #ffffff;
             border-color: var(--bs-primary);
+        }
+
+        .login-showcase{
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #2563eb 0%,
+                    #1d4ed8 45%,
+                    #0f172a 100%
+                );
+
+            color:white;
+
+            min-height:100vh;
+
+            position:relative;
+
+            overflow:hidden;
+        }
+
+        .login-showcase::before{
+
+            content:"";
+
+            position:absolute;
+
+            width:500px;
+            height:500px;
+
+            border-radius:50%;
+
+            background:
+                rgba(255,255,255,.08);
+
+            top:-200px;
+            right:-150px;
+        }
+
+        .quick-login{
+
+            border-radius:999px;
+
+            padding:6px 14px;
+
+            font-weight:600;
+
+            border:1px solid #e2e8f0;
+
+            transition:.2s;
+        }
+
+        .quick-login:hover{
+
+            transform:translateY(-2px);
+
+            box-shadow:
+                0 6px 15px rgba(37,99,235,.15);
+
+            border-color:#2563eb;
+
+            color:#2563eb;
         }
     </style>
 </head>
@@ -209,10 +276,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                         
                         <div class="mb-4">
-                            <label class="form-label fw-bold text-dark small">No. Kad Pengenalan</label>
+                            <label class="form-label fw-bold text-dark small">Username:</label>
                             <div class="input-group input-group-lg <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>">
                                 <span class="input-group-text"><i class="bi bi-person text-muted"></i></span>
-                                <input type="text" name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" placeholder="Cth: 960604105929" autocomplete="off">
+                                <input type="text" id = 'inputUsername' name="username" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>" placeholder="Cth: 960604105929" autocomplete="off">
                             </div>
                             <span class="text-danger small mt-1 d-block"><?php echo $username_err; ?></span>
                         </div>    
@@ -231,12 +298,77 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             </div>
                             <span class="text-danger small mt-1 d-block"><?php echo $password_err; ?></span>
                         </div>
+                        <div class="mt-4">
 
-                        <div class="mb-4 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe">
-                            <label class="form-check-label text-muted small" for="rememberMe">Biarkan saya sentiasa log masuk</label>
+                            <div class="small text-muted fw-bold mb-2">
+                                Quick Login
+                            </div>
+
+                            <div class="d-flex flex-wrap gap-2">
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Hafiz"
+                                    >
+
+                                    Hafiz
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Iffa"
+                                    >
+
+                                    Iffa
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Fareisya"
+                                   >
+
+                                    Fareisya
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Liyaana"
+                                   >
+
+                                    Liyaana
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Raja"
+                                   >
+
+                                    Raja
+
+                                </button>
+
+                                <button
+                                    type="button"
+                                    class="btn btn-light btn-sm quick-login"
+                                    data-user="Amirul"
+                                   >
+
+                                    Amirul
+
+                                </button>
+
+                            </div>
+
                         </div>
-
                         <div class="d-grid mt-5">
                             <button type="submit" class="btn btn-primary btn-lg fw-bold shadow">
                                 Log Masuk Sistem
@@ -247,11 +379,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 </div>
 
-                <div class="position-absolute bottom-0 text-center w-100 pb-3 pt-3 bg-white">
-                    <small class="text-muted" style="font-size: 0.75rem;">
-                        &copy; Object Expression Sdn. Bhd.<br>Paparan terbaik menggunakan Chrome / Edge terkini.
-                    </small>
-                </div>
 
             </div>
         </div>
@@ -274,6 +401,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 iconTogglePass.classList.remove('bi-eye');
                 iconTogglePass.classList.add('bi-eye-slash');
             }
+        });
+        document
+        .querySelectorAll('.quick-login')
+        .forEach(button => {
+
+            button.addEventListener(
+                'click',
+                function(){
+
+                    document
+                    .getElementById('inputUsername')
+                    .value =
+                        this.dataset.user;
+
+                   
+                }
+            );
+
         });
     </script>
 </body>

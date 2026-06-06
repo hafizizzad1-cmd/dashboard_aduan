@@ -1,6 +1,7 @@
 <?php
 require_once("../controller/aduan_harian_controller.php");
 $page_active = 'aduan_harian';
+require_once 'includes/session.php';
 include("includes/header.php");
 ?>
 

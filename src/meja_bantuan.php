@@ -1,6 +1,7 @@
 <?php
 require_once("../controller/meja_bantuan_controller.php");
 $page_active = 'meja_bantuan';
+require_once 'includes/session.php';
 include("includes/header.php");
 ?>
 
