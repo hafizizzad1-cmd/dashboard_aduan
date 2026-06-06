@@ -1,0 +1,1 @@
+echo "<?php header('Location: src/meja_bantuan.php'); exit(); ?>" > /var/www/html/src/index.php
