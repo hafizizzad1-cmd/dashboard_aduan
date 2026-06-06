@@ -95,8 +95,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     
     <style>
-        body {
-            overflow-x: hidden; /* Elak scroll melintang */
+       body{
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #eef2ff,
+                    #f8fafc
+                );
         }
         
         /* Gambar akan tutup seluruh ruang kiri dengan cantik */
@@ -116,11 +122,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             bottom: 3rem;
         }
 
-        /* Ruangan Form Login */
-        .login-form-container {
-            max-width: 420px;
-            width: 100%;
-            margin: 0 auto;
+       .login-form-container{
+
+            background:white;
+
+            border-radius:32px;
+
+            padding:90px 90px;
+
+            box-shadow:
+                0 20px 50px rgba(15,23,42,.08);
         }
 
         .input-group-text {
@@ -143,23 +154,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             border-color: var(--bs-primary);
         }
 
-        .login-showcase{
+       .login-showcase{
 
-            background:
-                linear-gradient(
-                    135deg,
-                    #2563eb 0%,
-                    #1d4ed8 45%,
-                    #0f172a 100%
-                );
-
-            color:white;
-
-            min-height:100vh;
-
-            position:relative;
+            background:#071f63;
 
             overflow:hidden;
+
+            position:relative;
         }
 
         .login-showcase::before{
@@ -204,6 +205,247 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             color:#2563eb;
         }
+
+
+      .showcase-content{
+
+            position:absolute;
+
+            inset:0;
+
+            display:flex;
+
+            justify-content:center;
+
+            align-items:center;
+
+            z-index:10;
+
+            padding:0;
+        }
+
+       .showcase-content{
+
+    position:absolute;
+
+    inset:0;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    padding:40px;
+
+    z-index:10;
+}
+
+.showcase-glass{
+
+    position:relative;
+
+    width:92%;
+
+    border-radius:32px;
+
+    overflow:hidden;
+
+    background:
+        rgba(255,255,255,.08);
+
+    backdrop-filter:
+        blur(25px);
+
+    border:
+        1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 25px 60px rgba(0,0,0,.25),
+        inset 0 1px 0 rgba(255,255,255,.15);
+}
+
+    .bubbles{
+
+        position:absolute;
+
+        inset:0;
+
+        overflow:hidden;
+
+        z-index:1;
+    }
+
+    .bubbles span{
+
+        position:absolute;
+
+        bottom:-100px;
+
+        border-radius:50%;
+
+        background:
+            rgba(255,255,255,.08);
+
+        animation:
+            bubbleMove 25s linear infinite;
+    }
+
+    .bubbles span:nth-child(1){
+        width:80px;
+        height:80px;
+        left:10%;
+    }
+
+    .bubbles span:nth-child(2){
+        width:120px;
+        height:120px;
+        left:25%;
+        animation-duration:30s;
+    }
+
+    .bubbles span:nth-child(3){
+        width:60px;
+        height:60px;
+        left:50%;
+        animation-duration:20s;
+    }
+
+    .bubbles span:nth-child(4){
+        width:150px;
+        height:150px;
+        left:70%;
+    }
+
+    .bubbles span:nth-child(5){
+        width:90px;
+        height:90px;
+        left:85%;
+    }
+
+    .bubbles span:nth-child(6){
+        width:200px;
+        height:200px;
+        left:35%;
+        animation-duration:35s;
+    }
+
+    @keyframes bubbleMove{
+
+        from{
+
+            transform:
+                translateY(0)
+                rotate(0deg);
+
+            opacity:0;
+        }
+
+        20%{
+
+            opacity:1;
+        }
+
+        80%{
+
+            opacity:1;
+        }
+
+        to{
+
+            transform:
+                translateY(-120vh)
+                rotate(360deg);
+
+            opacity:0;
+        }
+    }
+
+    .showcase-card{
+
+        background:
+            rgba(255,255,255,.05);
+
+        backdrop-filter:
+            blur(20px);
+
+        border:
+            1px solid rgba(255,255,255,.08);
+
+        border-radius:32px;
+
+        padding:20px;
+    }
+
+    .showcase-banner{
+
+        width:100%;
+
+        display:block;
+
+         position:relative;
+
+       overflow:hidden;
+
+       opacity:.85;
+
+    }
+    .showcase-glass::before{
+
+        content:"";
+
+        position:absolute;
+
+        top:0;
+
+        left:0;
+
+        width:100%;
+
+        height:1px;
+
+        background:
+            linear-gradient(
+                90deg,
+                transparent,
+                rgba(255,255,255,.7),
+                transparent
+            );
+
+        z-index:20;
+    }
+    .showcase-glass::after{
+
+    content:"";
+
+    position:absolute;
+
+    inset:-80px;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(37,99,235,.35),
+            transparent 70%
+        );
+
+    z-index:-1;
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    background:
+        linear-gradient(
+            135deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.03)
+        );
+
+    pointer-events:none;
+}
     </style>
 </head>
 <body>
@@ -211,53 +453,58 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="container-fluid p-0">
         <div class="row g-0 vh-100">
             
-            <div class="col-lg-7 d-none d-lg-block position-relative">
-                
-                <div id="loginCarousel" class="carousel slide carousel-fade h-100" data-bs-ride="carousel" data-bs-pause="false">
-                    <div class="carousel-inner h-100">
-                        
-                        <div class="carousel-item active h-100" data-bs-interval="5000">
-                            <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&q=80&w=1600" class="login-bg-img" alt="Bangunan">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h4 class="fw-bold text-white">Sistem Pendaftaran Pertubuhan</h4>
-                                <p class="text-white-50 mb-0">Memudahkan pengurusan rekod dan aduan secara bersepadu.</p>
-                            </div>
-                        </div>
+            <div class="col-lg-7 d-none d-lg-block login-showcase">
 
-                        <div class="carousel-item h-100" data-bs-interval="5000">
-                            <img src="https://images.unsplash.com/photo-1577415124269-fc1140a69e91?auto=format&fit=crop&q=80&w=1600" class="login-bg-img" alt="Mesyuarat">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h4 class="fw-bold text-white">Efisien & Dinamik</h4>
-                                <p class="text-white-50 mb-0">Platform digital untuk kemudahan pegawai meja bantuan.</p>
-                            </div>
-                        </div>
-
-                        <div class="carousel-item h-100" data-bs-interval="5000">
-                            <img src="https://images.unsplash.com/photo-1504384308090-c894fdcc538d?auto=format&fit=crop&q=80&w=1600" class="login-bg-img" alt="Kerja Berpasukan">
-                            <div class="carousel-caption d-none d-md-block">
-                           
-                            </div>
-                        </div>
-                        
-                    </div>
+                <!-- Bubble Background -->
+                <div class="bubbles">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
                 </div>
-                
-                <div class="position-absolute top-0 start-0 p-4" style="z-index: 10;">
-                    <h5 class="text-white fw-bold shadow-sm" style="text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                        <i class="bi bi-shield-check me-2"></i>eROSES
+
+                <!-- Logo -->
+                <div class="position-absolute top-0 start-0 p-4"
+                    style="z-index:20;">
+
+                    <h5 class="text-white fw-bold">
+                        <img
+                            src="assets/images/rosie-icon.png"
+                            style="height:40px;"
+                            class="me-2">
+
+                        MEJA BANTUAN PLUS+
                     </h5>
+
+                </div>
+               <div class="showcase-content">
+
+                    <div class="showcase-glass">
+
+                        <img
+                            src="assets/images/login-banner.png"
+                            class="showcase-banner">
+
+                    </div>
+
                 </div>
 
             </div>
 
 
-            <div class="col-lg-5 d-flex flex-column align-items-center justify-content-center bg-white position-relative shadow-lg" style="z-index: 5;">
+           <div class="col-lg-5 d-flex flex-column align-items-center justify-content-center position-relative">
                 
-                <div class="login-form-container px-4 px-md-0">
+                <div class="login-form-container ">
                     
                     <div class="text-center mb-5">
                         <div class="bg-primary bg-opacity-10 text-primary rounded-3 d-inline-flex align-items-center justify-content-center mb-4 shadow-sm" style="width: 70px; height: 70px;">
-                            <i class="bi bi-box-seam-fill fs-1"></i>
+                            <img
+                                src="assets/images/rosie-icon.png"
+                                style="
+                                    width:70px;
+                                    height:70px;">
                         </div>
                         <h3 class="fw-bold text-dark mb-1">Meja Bantuan Plus+</h3>
                         <p class="text-muted">Log masuk untuk meneruskan sesi anda.</p>
