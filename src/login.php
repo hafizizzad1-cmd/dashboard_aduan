@@ -2,11 +2,6 @@
 // Mulakan sesi (Session) untuk simpan data login
 session_start();
 
-// Kalau pengguna dah login, terus tendang masuk ke sistem utama (index.php)
-if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
-    header("location: index.php");
-    exit;
-}
 
 // ==========================================================
 // DATA PENGGUNA HARDCODE (Ganti Database)

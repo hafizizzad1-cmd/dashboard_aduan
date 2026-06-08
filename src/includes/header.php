@@ -506,17 +506,41 @@
     
 
 
-    .today{
+   .today{
+
+		position:relative;
 
 		border:3px solid #2563eb !important;
 
-		background:#dbeafe !important;
+		box-shadow:
+			0 0 0 5px rgba(37,99,235,.12);
 
-		transform:scale(1.03);
+		transform:scale(1.02);
 
-		z-index:5;
+		z-index:10;
+	}
 
-		position:relative;
+	.today::before{
+
+		content:"📍 TODAY";
+
+		position:absolute;
+
+		top:8px;
+
+		right:8px;
+
+		background:#2563eb;
+
+		color:white;
+
+		font-size:10px;
+
+		font-weight:700;
+
+		padding:4px 8px;
+
+		border-radius:999px;
 	}
 
     /* Navigasi ringkas */
@@ -902,6 +926,53 @@
 	.person-click{
 
 		cursor:pointer;
+	}
+
+	.today-focus{
+
+		animation:
+			pulseToday
+			1s ease-in-out
+			2;
+	}
+
+	@keyframes pulseToday{
+
+		0%{
+
+			transform:scale(1);
+		}
+
+		50%{
+
+			transform:scale(1.06);
+
+			box-shadow:
+				0 0 0 10px
+				rgba(59,130,246,.15);
+		}
+
+		100%{
+
+			transform:scale(1);
+		}
+	}
+
+	#btnToday{
+
+		font-weight:700;
+
+		min-width:140px;
+
+		transition:.2s;
+	}
+
+	#btnToday:hover{
+
+		transform:translateY(-2px);
+
+		box-shadow:
+			0 10px 25px rgba(37,99,235,.25);
 	}
 	</style>
 	

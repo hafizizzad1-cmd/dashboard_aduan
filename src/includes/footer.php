@@ -201,5 +201,41 @@ $('#btnDelete').click(function(){
     });
 
 });
+
+document
+.getElementById('btnToday')
+.addEventListener(
+    'click',
+    function(){
+
+        const todayCard =
+            document.getElementById(
+                'today-card'
+            );
+
+        if(todayCard){
+
+            todayCard.scrollIntoView({
+
+                behavior:'smooth',
+
+                block:'center'
+
+            });
+
+            todayCard.classList.add(
+                'today-focus'
+            );
+
+            setTimeout(function(){
+
+                todayCard.classList.remove(
+                    'today-focus'
+                );
+
+            },2000);
+        }
+    }
+);
 </script>
 

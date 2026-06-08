@@ -63,7 +63,6 @@ $backupStaff = [
 // =====================================
 // CUTI UMUM
 // =====================================
-
 $senaraiCuti = [
 
     '2026-05-01' => 'Hari Pekerja',
@@ -71,7 +70,17 @@ $senaraiCuti = [
     '2026-05-31' => 'Hari Wesak',
 
     '2026-06-01' => 'Keputeraan Agong',
+    '2026-06-02' => 'Cuti Ganti Hari Wesak',
     '2026-06-17' => 'Awal Muharram',
+
+    '2026-08-25' => 'Maulidur Rasul',
+    '2026-08-31' => 'Hari Kebangsaan',
+
+    '2026-09-16' => 'Hari Malaysia',
+
+    '2026-11-08' => 'Hari Deepavali',
+
+    '2026-12-25' => 'Hari Krismas',
 ];
 
 
@@ -228,6 +237,14 @@ include("includes/header.php");
         </div>
         
         <div class="col-md-4 d-flex align-items-start justify-content-md-end gap-2 month-nav">
+           <button
+                class="btn btn-primary btn-lg rounded-pill px-4 py-2 shadow-sm"
+                id="btnToday">
+
+                <i class="bi bi-crosshair me-2"></i>
+                Hari Ini
+
+            </button>
             <a href="#mei" class="nav-link-custom">Mei</a>
             <a href="#jun" class="nav-link-custom">Jun</a>
             <a href="#julai" class="nav-link-custom">Julai</a>
@@ -423,7 +440,7 @@ include("includes/header.php");
                 $objek = new DateTime("2026-$bulan_n-01");
                 $currentMasterList = ($bulan_n == 5) ? $masterListMei : $masterListJun;
             ?>
-
+            
             <div class="mb-5" id="<?= strtolower($nama_b) ?>">
                 <div class="month-header">
                     <div class="month-title"><?= $nama_b ?> 2026</div>
@@ -440,6 +457,9 @@ include("includes/header.php");
 
                 <div class="calendar-container">
                     <?php
+                    $minimumOfficeStaff = 3;
+                    $availableThreshold = 4;
+
                     for($k=1; $k<$objek->format('N'); $k++){
                         echo '<div class="calendar-day weekend"></div>';
                     }
@@ -449,45 +469,104 @@ include("includes/header.php");
                         $status = dapatkanStatusHariIni($tarikh, $currentMasterList, $rekodOOO);
                         $dn = (new DateTime($tarikh))->format('N');
                         
-                        // Kira staf hadir/wfh/backup
-                        $jumlahHadir = count($status['hadir']);
-                        $jumlahOffice = $jumlahHadir;
-                        foreach($status['ooo'] as $o) {
-                            if(stripos($o['jenis'], 'WFH') !== false) { $jumlahOffice++; }
+                        // ======================================================
+                        // KIRA JUMLAH STAF DI PEJABAT
+                        // ======================================================
+
+                        // Hanya staf HADIR dikira berada di pejabat
+                        $jumlahOffice = count($status['hadir']);
+
+                        // Backup staff dikira berada di pejabat
+                        if(array_key_exists($tarikh, $backupStaff)){
+                            $jumlahOffice++;
                         }
-                        if(array_key_exists($tarikh, $backupStaff)) { $jumlahOffice++; }
 
                         $today = date('Y-m-d');
                         $is_cuti_umum = array_key_exists($tarikh, $senaraiCuti);
-                        
-                        // Logic CSS Classes
-                        $kelas = '';
-                        if($dn == 6 || $dn == 7) { $kelas .= ' weekend'; }
-                        if($is_cuti_umum) { $kelas .= ' cuti-umum'; }
-                        
-                        // HANYA tambah 'overstaffed' (hijau) jika bukan cuti/weekend & staff >= 4
-                        if (!$is_cuti_umum && $dn < 6 && $jumlahOffice >= 4) { $kelas .= ' overstaffed'; }
-                        
-                        // HANYA tambah 'critical' jika kurang staf
-                        if (!$is_cuti_umum && $dn < 6 && $jumlahOffice < $minimumOfficeStaff) { $kelas .= ' critical'; }
-                        
-                        if($tarikh == $today) { $kelas .= ' today'; }
-                    ?>
 
-                    <div
-                        class="calendar-day <?= $kelas ?>"
-                        data-tarikh="<?= $tarikh ?>"
-                        style="cursor:pointer;">
+                        // ======================================================
+                        // STATUS HARI
+                        // ======================================================
+
+                        $kelas = '';
+
+                        if($dn == 6 || $dn == 7){
+                            $kelas .= ' weekend';
+                        }
+
+                        if($is_cuti_umum){
+                            $kelas .= ' cuti-umum';
+                        }
+
+                        // Merah
+                        if(
+                            !$is_cuti_umum
+                            &&
+                            $dn < 6
+                            &&
+                            $jumlahOffice < $minimumOfficeStaff
+                        ){
+                            $kelas .= ' critical';
+                        }
+
+                        // Hijau
+                        if(
+                            !$is_cuti_umum
+                            &&
+                            $dn < 6
+                            &&
+                            $jumlahOffice >= $availableThreshold
+                        ){
+                            $kelas .= ' overstaffed';
+                        }
+
+                        // Kuning
+                        if(
+                            !$is_cuti_umum
+                            &&
+                            $dn < 6
+                            &&
+                            $jumlahOffice >= $minimumOfficeStaff
+                            &&
+                            $jumlahOffice < $availableThreshold
+                        ){
+                            $kelas .= '  normal';
+                        }
+
+                        if($tarikh == $today){
+                            $kelas .= ' today';
+                        }?>
+
+                   <div
+                    id="<?= ($tarikh == $today) ? 'today-card' : '' ?>"
+                    class="calendar-day <?= $kelas ?>"
+                    data-tarikh="<?= $tarikh ?>"
+                    style="cursor:pointer;">
                         <div class="quick-add">
                             <i class="bi bi-plus-lg"></i>
                         </div>
                         <div class="day-top">
                             <div class="day-number"><?= $h ?></div>
                             
-                            <?php if(!$is_cuti_umum && $dn < 6): ?>
-                                <?php if($jumlahOffice >= 4): ?>
-                                    <span class="badge rounded-pill bg-success" style="font-size: 0.6rem;">Available</span>
-                                <?php else: ?>
+                         <?php if(!$is_cuti_umum && $dn < 6): ?>
+
+                                    <?php if($jumlahOffice >= $availableThreshold): ?>
+
+                                        <span
+                                            class="badge rounded-pill bg-success"
+                                            style="font-size:0.6rem;">
+                                            Available
+                                        </span>
+
+                                    <?php elseif($jumlahOffice >= $minimumOfficeStaff): ?>
+
+                                        <span
+                                            class="badge rounded-pill bg-info text-dark"
+                                            style="font-size:0.6rem;">
+                                            Cukup
+                                        </span>
+
+                                    <?php else: ?>
                                    <?php
 
                                         $peratus =
