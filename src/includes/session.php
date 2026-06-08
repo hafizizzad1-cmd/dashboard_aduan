@@ -8,6 +8,6 @@ if(
     $_SESSION['loggedin'] !== true
 ){
 
-    header("Location: login.php");
+    header("Location: ../index.php");
     exit;
 }
