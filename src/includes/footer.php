@@ -136,30 +136,145 @@ $(document).on(
 
 $('#btnSave').click(function(){
 
+    const dataOOO = {
+
+        id:
+            $('#modal_id').val(),
+
+        nama:
+            $('#modal_nama').val(),
+
+        tarikh:
+            $('#modal_tarikh').val(),
+
+        jenis:
+            $('#modal_jenis').val()
+    };
+
+
+    if(
+        !dataOOO.nama
+        ||
+        !dataOOO.tarikh
+        ||
+        !dataOOO.jenis
+    ){
+        Swal.fire({
+
+            title:
+                'Maklumat tidak lengkap',
+
+            text:
+                'Sila lengkapkan nama, tarikh dan jenis rekod.',
+
+            icon:
+                'warning'
+        });
+
+        return;
+    }
+
+
+    $('#btnSave')
+        .prop('disabled', true)
+        .text('Menyimpan...');
+
+
     $.ajax({
 
-        url:'ajax/save_ooo.php',
+        url:
+            'ajax/save_ooo.php',
 
-        method:'POST',
+        method:
+            'POST',
 
-        data:{
+        dataType:
+            'json',
 
-            id:
-                $('#modal_id').val(),
+        data:
+            dataOOO,
 
-            nama:
-                $('#modal_nama').val(),
+        success:function(response){
 
-            tarikh:
-                $('#modal_tarikh').val(),
+            if(!response.success){
 
-            jenis:
-                $('#modal_jenis').val()
+                Swal.fire({
+
+                    title:
+                        'Tidak berjaya',
+
+                    text:
+                        response.message,
+
+                    icon:
+                        'error'
+                });
+
+                return;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Berjaya',
+
+                text:
+                    response.message,
+
+                icon:
+                    'success',
+
+                timer:
+                    900,
+
+                showConfirmButton:
+                    false
+
+            }).then(function(){
+
+                location.reload();
+            });
         },
 
-        success:function(){
+        error:function(xhr){
 
-            location.reload();
+            let mesej =
+                'Terdapat ralat semasa menyimpan rekod.';
+
+            if(
+                xhr.responseJSON
+                &&
+                xhr.responseJSON.message
+            ){
+                mesej =
+                    xhr.responseJSON.message;
+
+            }else if(xhr.responseText){
+
+                mesej =
+                    xhr.responseText;
+            }
+
+
+            Swal.fire({
+
+                title:
+                    'Ralat',
+
+                text:
+                    mesej,
+
+                icon:
+                    'error'
+            });
+        },
+
+        complete:function(){
+
+            $('#btnSave')
+                .prop('disabled', false)
+                .text('Simpan');
         }
     });
 });
@@ -237,5 +352,29 @@ document
         }
     }
 );
+
+
+$('#btnNewOOO').click(function(){
+
+    $('#modal_title')
+        .text('Tambah Rekod');
+
+    $('#modal_id')
+        .val('');
+
+    $('#modal_tarikh')
+        .val('');
+
+    $('#modal_nama')
+        .val('');
+
+    $('#modal_jenis')
+        .val('WFH');
+
+    $('#btnDelete')
+        .addClass('d-none');
+});
 </script>
+
+
 

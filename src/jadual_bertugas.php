@@ -279,6 +279,7 @@ include("includes/header.php");
             </div>
 
             <button
+                 id="btnNewOOO"
                 class="btn btn-primary btn-ooo w-100"
                 data-bs-toggle="modal"
                 data-bs-target="#modalOOO">
