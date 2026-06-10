@@ -47,7 +47,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
 	<link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-
+	<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
 
 
 
@@ -974,6 +974,325 @@
 		box-shadow:
 			0 10px 25px rgba(37,99,235,.25);
 	}
+	
+	/* =========================================================
+           TOP SUMMARY CARDS
+           ========================================================= */
+        /* =========================================================
+   TOP SUMMARY CARDS
+   ========================================================= */
+.top-summary-card{
+    --card-accent:#2563eb;
+    --card-accent-soft:rgba(37,99,235,.14);
+    --card-border:rgba(37,99,235,.24);
+    --card-bg-start:#eff6ff;
+    --card-bg-end:#dbeafe;
+
+    height:100%;
+    min-height:138px;
+    padding:1rem 1.1rem;
+    border-radius:20px;
+    border:1px solid var(--card-border);
+    background:linear-gradient(
+        135deg,
+        var(--card-bg-start) 0%,
+        var(--card-bg-end) 100%
+    );
+    box-shadow:
+        0 10px 24px rgba(15,23,42,.06),
+        inset 0 1px 0 rgba(255,255,255,.72);
+    position:relative;
+    overflow:hidden;
+    transition:
+        transform .22s ease,
+        box-shadow .22s ease,
+        border-color .22s ease;
+}
+
+.top-summary-card:hover{
+    transform:translateY(-4px);
+    box-shadow:
+        0 16px 30px rgba(15,23,42,.11),
+        inset 0 1px 0 rgba(255,255,255,.78);
+}
+
+/* Garisan accent kiri */
+.top-summary-card::before{
+    content:'';
+    position:absolute;
+    inset:0 auto 0 0;
+    width:5px;
+    background:var(--card-accent);
+}
+
+/* Decorative glow */
+.top-summary-card::after{
+    content:'';
+    position:absolute;
+    width:150px;
+    height:150px;
+    border-radius:50%;
+    right:-58px;
+    top:-62px;
+    background:rgba(255,255,255,.38);
+}
+
+/* =========================================================
+   CARD THEMES
+   ========================================================= */
+.top-summary-card.card-duty{
+    --card-accent:#c7d2fe;
+    --card-border:rgba(99,102,241,.52);
+    --card-bg-start:#2563eb;
+    --card-bg-end:#4f46e5;
+    color:#ffffff;
+    box-shadow:
+        0 14px 28px rgba(37,99,235,.22),
+        inset 0 1px 0 rgba(255,255,255,.18);
+}
+
+.top-summary-card.card-tomorrow{
+    --card-accent:#0891b2;
+    --card-accent-soft:rgba(8,145,178,.14);
+    --card-border:rgba(8,145,178,.28);
+    --card-bg-start:#ecfeff;
+    --card-bg-end:#cffafe;
+    color:#0f172a;
+}
+
+.top-summary-card.card-available{
+    --card-accent:#16a34a;
+    --card-accent-soft:rgba(22,163,74,.14);
+    --card-border:rgba(22,163,74,.28);
+    --card-bg-start:#f0fdf4;
+    --card-bg-end:#dcfce7;
+    color:#0f172a;
+}
+
+/* =========================================================
+   CONTENT TYPOGRAPHY
+   ========================================================= */
+.top-summary-label{
+    display:inline-flex;
+    align-items:center;
+    gap:.3rem;
+    padding:.27rem .52rem;
+    border-radius:999px;
+    background:rgba(255,255,255,.52);
+    color:#334155;
+    font-size:.68rem;
+    font-weight:800;
+    letter-spacing:.09em;
+    line-height:1;
+}
+
+.top-summary-label iconify-icon{
+    font-size:.92rem;
+}
+
+.card-duty .top-summary-label{
+    background:rgba(255,255,255,.16);
+    color:#ffffff;
+}
+
+.top-summary-date{
+    margin-top:.62rem;
+    color:#475569;
+    font-size:.78rem;
+    font-weight:700;
+}
+
+.card-duty .top-summary-date{
+    color:rgba(255,255,255,.84);
+}
+
+.top-summary-main{
+    margin-top:.22rem;
+    color:#0f172a;
+    font-size:1.5rem;
+    line-height:1.15;
+    font-weight:900;
+    letter-spacing:-.02em;
+}
+
+.card-duty .top-summary-main{
+    color:#ffffff;
+}
+
+.top-summary-meta{
+    margin-top:.48rem;
+    color:#64748b;
+    font-size:.72rem;
+    font-weight:700;
+}
+
+.top-summary-detail{
+    margin-top:.62rem;
+    max-width:90%;
+    color:#475569;
+    font-size:.76rem;
+    line-height:1.5;
+    font-weight:600;
+}
+
+/* =========================================================
+   ICON BOX
+   ========================================================= */
+.top-summary-icon{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex:0 0 auto;
+    width:48px;
+    height:48px;
+    border-radius:16px;
+    background:var(--card-accent-soft);
+    color:var(--card-accent);
+    line-height:1;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.55);
+    position:relative;
+    z-index:1;
+}
+
+.top-summary-icon iconify-icon{
+    font-size:1.62rem;
+}
+
+.card-duty .top-summary-icon{
+    background:rgba(255,255,255,.2);
+    color:#ffffff;
+}
+
+/* =========================================================
+   HADIR ESOK STAFF CHIPS
+   ========================================================= */
+.tomorrow-staff-list{
+    display:flex;
+    flex-wrap:wrap;
+    gap:.48rem;
+    margin-top:.72rem;
+}
+
+.tomorrow-staff-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.38rem;
+    padding:.48rem .78rem;
+    border-radius:999px;
+    border:1px solid rgba(8,145,178,.26);
+    background:rgba(255,255,255,.84);
+    color:#155e75;
+    font-size:.8rem;
+    font-weight:800;
+    box-shadow:
+        0 3px 8px rgba(8,145,178,.08),
+        inset 0 1px 0 rgba(255,255,255,.9);
+}
+
+.tomorrow-staff-chip iconify-icon{
+    color:#0891b2;
+    font-size:1rem;
+}
+
+.tomorrow-staff-chip.is-backup{
+    border-color:rgba(22,163,74,.28);
+    background:rgba(240,253,244,.9);
+    color:#166534;
+}
+
+.tomorrow-staff-chip.is-backup iconify-icon{
+    color:#16a34a;
+}
+
+.tomorrow-staff-chip small{
+    padding:.12rem .34rem;
+    border-radius:999px;
+    background:rgba(22,163,74,.14);
+    color:#15803d;
+    font-size:.56rem;
+    font-weight:900;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+}
+
+/* =========================================================
+   AVAILABLE CHIPS
+   ========================================================= */
+.available-chip{
+    display:inline-flex;
+    align-items:center;
+    gap:.28rem;
+    margin:.25rem .25rem 0 0;
+    padding:.34rem .58rem;
+    border-radius:999px;
+    border:1px solid rgba(22,163,74,.2);
+    background:rgba(255,255,255,.7);
+    color:#166534;
+    font-size:.7rem;
+    font-weight:800;
+}
+
+.available-chip iconify-icon{
+    color:#16a34a;
+    font-size:.9rem;
+}
+
+/* =========================================================
+   EMPTY STATE
+   ========================================================= */
+.staff-empty-note{
+    display:inline-flex;
+    align-items:center;
+    gap:.42rem;
+    margin-top:.7rem;
+    padding:.46rem .68rem;
+    border-radius:12px;
+    border:1px solid rgba(100,116,139,.14);
+    background:rgba(255,255,255,.72);
+    color:#475569;
+    font-size:.76rem;
+    font-weight:700;
+}
+
+.staff-empty-note iconify-icon{
+    font-size:1rem;
+}
+
+/* =========================================================
+   SIDEBAR ICONIFY
+   ========================================================= */
+.sidebar-stat-label{
+    display:flex;
+    align-items:center;
+    gap:.48rem;
+}
+
+.sidebar-stat-label iconify-icon{
+    width:18px;
+    color:#64748b;
+    font-size:1.08rem;
+}
+
+.activity-icon iconify-icon{
+    color:#64748b;
+    font-size:1.1rem;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+@media (max-width:991.98px){
+    .top-summary-card{
+        min-height:145px;
+    }
+}
+
+.warning iconify-icon{
+    margin-right:.18rem;
+    font-size:.82rem;
+    vertical-align:-.12rem;
+}
+
 	</style>
 	
 	
