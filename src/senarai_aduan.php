@@ -1,909 +1,397 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
-    <link rel="shortcut icon" href="../assets/images/favicon/favicon.png" type="image/x-icon">
-    <title>STATISTIK MEJA BANTUAN</title>
-    <!-- Google font-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&amp;display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&amp;display=swap" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/font-awesome.css">
-    <!-- ico-font-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/icofont.css">
-    <!-- Themify icon-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/themify.css">
-    <!-- Flag icon-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/flag-icon.css">
-    <!-- Feather icon-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/feather-icon.css">
-    <!-- Plugins css start-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/scrollbar.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/animate.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/chartist.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/date-picker.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/slick.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/slick-theme.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/prism.css">
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/whether-icon.css">
-    <!-- Plugins css Ends-->
-    <!-- Bootstrap css-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/vendors/bootstrap.css">
-    <!-- App css-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/style.css">
-    <link id="color" rel="stylesheet" href="../assets/css/color-1.css" media="screen">
-    <!-- Responsive css-->
-    <link rel="stylesheet" type="text/css" href="../assets/css/responsive.css">
-	
-	
-	
-    <style>
-        /* Tema Biru & Topbar */
-        :root {
-            --primary-blue: #1e40af; 
-            --accent-blue: #2563eb;  
-            --light-blue: #eff6ff;   
-        }
-        .top-title-row {
-            background-color: var(--primary-blue);
-            color: white;
-            font-size: 0.85rem;
-            padding: 8px 15px;
-            z-index: 1030;
-            position: relative;
-        }
-        .modern-topbar {
-            background: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(37, 99, 235, 0.1);
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
-            z-index: 1020;
-        }
-        .modern-topbar .nav-item .nav-link {
-            color: #475569;
-            font-weight: 600;
-            padding: 0.6rem 1.25rem;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-        }
-        .modern-topbar .nav-item .nav-link:hover, 
-        .modern-topbar .nav-item .nav-link.active {
-            background-color: var(--light-blue);
-            color: var(--accent-blue);
-        }
-        .modern-topbar .dropdown-menu {
-            border: none;
-            box-shadow: 0 10px 40px rgba(37, 99, 235, 0.1);
-            border-radius: 16px;
-            padding: 0.75rem;
-            margin-top: 10px;
-        }
-        .modern-topbar .dropdown-item {
-            border-radius: 8px;
-            font-weight: 500;
-            color: #475569;
-            padding: 0.6rem 1rem;
-            transition: all 0.2s;
-        }
-        .modern-topbar .dropdown-item:hover {
-            background-color: var(--light-blue);
-            color: var(--accent-blue);
-        }
-        .footer-blue {
-            background-color: var(--primary-blue);
-            color: #cbd5e1;
-        }
-        
-        /* PENTING: Override margin Enzo supaya content memanjang penuh (Tiada Sidebar) */
-        .page-wrapper .page-body-wrapper .page-body {
-            margin-left: 0 !important;
-            margin-top: 0 !important;
-        }
-    </style>
-</head>
-<body>
-    <div class="tap-top"><i data-feather="chevrons-up"></i></div>
-    <div class="loader-wrapper">
-        <div class="loader"></div>
-    </div>
+<?php
+// ==========================================================
+// VIEW: SENARAI ADUAN
+// Lokasi cadangan: view/senarai_aduan.php
+// ==========================================================
 
-    <div class="top-title-row d-none d-md-block">
-        <div class="container-fluid px-4 d-flex justify-content-between align-items-center">
-            <div>
-                <i class="fa fa-info-circle me-1"></i> Sistem Meja Aduan Bersepadu v2.0
-            </div>
-            <div>
-                <i class="fa fa-map-marker me-1"></i> Ibu Pejabat | <i class="fa fa-envelope ms-3 me-1"></i> sokongan@aduan.gov.my
+require_once '../controller/senarai_aduan_controller.php';
+
+$page_active = 'pengurusan';
+include 'includes/header.php';
+
+function e(?string $value): string
+{
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+}
+
+function formatDateTime(?string $value): string
+{
+    if (empty($value) || $value === '0000-00-00 00:00:00') {
+        return '-';
+    }
+
+    return date('d/m/Y, h:i A', strtotime($value));
+}
+
+function truncateText(?string $value, int $length = 90): string
+{
+    $value = trim((string)$value);
+
+    if ($value === '') {
+        return '-';
+    }
+
+    return mb_strlen($value) > $length
+        ? mb_substr($value, 0, $length) . '...'
+        : $value;
+}
+
+function getSeverityBadge(?string $severity): string
+{
+    $severity = strtoupper(trim((string)$severity));
+
+    switch ($severity) {
+        case 'HIGH':
+        case 'SEVERE':
+            return '<span class="badge bg-danger">' . e($severity) . '</span>';
+        case 'MEDIUM':
+            return '<span class="badge bg-warning text-dark">MEDIUM</span>';
+        case 'LOW':
+            return '<span class="badge bg-success">LOW</span>';
+        default:
+            return '<span class="badge bg-secondary">-</span>';
+    }
+}
+
+function getTechnicalStatusBadge(?string $status): string
+{
+    $status = strtoupper(trim((string)$status));
+
+    switch ($status) {
+        case 'ASSIGNED':
+            return '<span class="badge rounded-pill badge-soft-warning">Dalam Tindakan</span>';
+        case 'ANSWERED':
+            return '<span class="badge rounded-pill badge-soft-success">Telah Dijawab</span>';
+        default:
+            return '<span class="badge rounded-pill bg-light text-secondary border">Belum Dialir</span>';
+    }
+}
+
+function getTypeLabel(?string $type): string
+{
+    $type = strtoupper(trim((string)$type));
+
+    switch ($type) {
+        case 'ISU_SISTEM':
+            return 'Isu Sistem';
+        case 'MAKLUM_BALAS':
+            return 'Maklum Balas';
+        default:
+            return $type !== '' ? ucwords(strtolower(str_replace('_', ' ', $type))) : '-';
+    }
+}
+
+function buildPageUrl(int $page): string
+{
+    global $active_tab, $keyword;
+
+    return 'senarai_aduan.php?' . http_build_query([
+        'tab'  => $active_tab,
+        'q'    => $keyword,
+        'page' => $page,
+    ]);
+}
+?>
+
+<style>
+    .complaint-list-page {
+        min-height: calc(100vh - 150px);
+        background: #f8fafc;
+    }
+
+    .page-heading-card {
+        border: 0;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #eff6ff 0%, #ffffff 100%);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.06);
+    }
+
+    .complaint-tab-wrapper {
+        display: inline-flex;
+        gap: 6px;
+        padding: 6px;
+        border-radius: 14px;
+        background: #eef2ff;
+    }
+
+    .complaint-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        color: #64748b;
+        font-size: 0.9rem;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .complaint-tab:hover {
+        color: #2563eb;
+    }
+
+    .complaint-tab.active {
+        color: #1d4ed8;
+        background: #ffffff;
+        box-shadow: 0 5px 16px rgba(37, 99, 235, 0.12);
+    }
+
+    .complaint-tab .count-pill {
+        min-width: 28px;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: #e2e8f0;
+        color: #475569;
+        font-size: 0.72rem;
+        text-align: center;
+    }
+
+    .complaint-tab.active .count-pill {
+        background: #dbeafe;
+        color: #1d4ed8;
+    }
+
+    .list-card {
+        border: 0;
+        border-radius: 18px;
+        box-shadow: 0 8px 24px rgba(15, 23, 42, 0.05);
+    }
+
+    .complaint-table thead th {
+        border-bottom: 1px solid #e2e8f0;
+        background: #f8fafc;
+        color: #64748b;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        white-space: nowrap;
+    }
+
+    .complaint-table tbody td {
+        border-color: #eef2f7;
+        color: #334155;
+        font-size: 0.84rem;
+        vertical-align: middle;
+    }
+
+    .complaint-table tbody tr {
+        transition: background-color 0.2s ease;
+    }
+
+    .complaint-table tbody tr:hover {
+        background-color: #f8fbff;
+    }
+
+    .complaint-title {
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    .search-box {
+        max-width: 460px;
+    }
+
+    .search-box .form-control,
+    .search-box .input-group-text {
+        border-color: #e2e8f0;
+        background: #ffffff;
+    }
+
+    .badge-soft-warning {
+        border: 1px solid #fde68a;
+        background: #fef3c7;
+        color: #92400e;
+    }
+
+    .badge-soft-success {
+        border: 1px solid #bbf7d0;
+        background: #dcfce7;
+        color: #166534;
+    }
+
+    .empty-state {
+        padding: 72px 20px;
+        color: #94a3b8;
+        text-align: center;
+    }
+
+    .empty-state i {
+        display: block;
+        margin-bottom: 14px;
+        color: #cbd5e1;
+        font-size: 3rem;
+    }
+</style>
+
+<div class="complaint-list-page">
+    <div class="container-fluid px-4 py-4">
+        <div class="card page-heading-card mb-4">
+            <div class="card-body p-4">
+                <div class="d-flex flex-column flex-lg-row align-items-lg-center justify-content-between gap-3">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-2">
+                            <a href="index.php" class="text-decoration-none text-primary small fw-bold">
+                                <i class="bi bi-chevron-left me-1"></i>Dashboard
+                            </a>
+                        </div>
+                        <h4 class="mb-1 fw-bold text-dark">Pengurusan Aduan</h4>
+                        <p class="mb-0 text-muted">Semak aduan yang sedang menunggu tindakan teknikal dan rekod aduan terdahulu.</p>
+                    </div>
+
+                    <div class="complaint-tab-wrapper">
+                        <a href="senarai_aduan.php?tab=pending" class="complaint-tab <?php echo $active_tab === 'pending' ? 'active' : ''; ?>">
+                            <i class="bi bi-hourglass-split"></i>
+                            Pending Aduan
+                            <span class="count-pill"><?php echo $total_pending; ?></span>
+                        </a>
+                        <a href="senarai_aduan.php?tab=all" class="complaint-tab <?php echo $active_tab === 'all' ? 'active' : ''; ?>">
+                            <i class="bi bi-list-check"></i>
+                            Senarai Aduan
+                            <span class="count-pill"><?php echo $total_all; ?></span>
+                        </a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
 
-    <nav class="navbar navbar-expand-lg modern-topbar py-3 sticky-top">
-        <div class="container-fluid px-4">
-            
-            <a class="navbar-brand fw-bold d-flex align-items-center gap-2" href="#" style="color: var(--primary-blue);">
-                <div class="text-white rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 40px; height: 40px; background-color: var(--accent-blue);">
-                    <i class="icofont icofont-headphone-alt fs-5"></i>
-                </div>
-                <span class="fs-4">Meja<span class="text-dark">Aduan</span></span>
-            </a>
-
-            <button class="navbar-toggler border-0 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#topMenu">
-                <span class="navbar-toggler-icon"><i class="fa fa-bars text-dark fs-4"></i></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="topMenu">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1 ms-lg-5">
-                    <li class="nav-item">
-                        <a class="nav-link active d-flex align-items-center gap-2" href="#">
-                            <i class="icofont icofont-dashboard-web fs-5"></i> Dashboard
-                        </a>
-                    </li>
-                    
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle d-flex align-items-center gap-2" href="#" role="button" data-bs-toggle="dropdown">
-                            <i class="icofont icofont-ui-folder fs-5"></i> Pengurusan Aduan
-                        </a>
-                        <ul class="dropdown-menu">
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2 mb-1" href="#">
-                                    <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--light-blue);">
-                                        <i class="icofont icofont-list" style="color: var(--accent-blue);"></i>
-                                    </div>
-                                    Senarai Aduan
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item d-flex align-items-center gap-2" href="#">
-                                    <div class="p-2 rounded-circle d-flex align-items-center justify-content-center" style="background-color: var(--light-blue);">
-                                        <i class="icofont icofont-tasks" style="color: var(--accent-blue);"></i>
-                                    </div>
-                                    Log Tugas Saya
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                <div class="d-flex align-items-center gap-4 mt-3 mt-lg-0 border-start ps-lg-4">
-                    <div class="position-relative" style="cursor: pointer;">
-                        <i class="icofont icofont-notification text-secondary fs-4"></i>
-                        <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-white rounded-circle">
-                            <span class="visually-hidden">Notifikasi Baru</span>
+        <div class="card list-card">
+            <div class="card-body p-0">
+                <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 px-4 py-3 border-bottom">
+                    <div>
+                        <h6 class="mb-1 fw-bold text-dark">
+                            <?php echo $active_tab === 'pending' ? 'Aduan Menunggu Tindakan' : 'Semua Rekod Aduan'; ?>
+                        </h6>
+                        <span class="text-muted small">
+                            <?php echo number_format($total_filtered); ?> rekod ditemui
                         </span>
                     </div>
-                    
-                    <div class="d-flex align-items-center gap-2" style="cursor: pointer;">
-                        <img src="../assets/images/dashboard/profile.jpg" alt="Profile" class="rounded-circle shadow-sm" style="width: 45px; height: 45px;">
-                        <div class="d-none d-md-block lh-sm">
-                            <h6 class="mb-0 fw-bold text-dark">Ahmad Faizal</h6>
-                            <span class="text-muted" style="font-size: 0.8rem;">Ketua Pasukan</span>
+
+                    <form method="get" class="search-box w-100">
+                        <input type="hidden" name="tab" value="<?php echo e($active_tab); ?>">
+                        <div class="input-group">
+                            <span class="input-group-text border-end-0">
+                                <i class="bi bi-search text-muted"></i>
+                            </span>
+                            <input
+                                type="text"
+                                name="q"
+                                value="<?php echo e($keyword); ?>"
+                                class="form-control border-start-0"
+                                placeholder="Cari ID, tajuk, nama atau no. pertubuhan..."
+                            >
+                            <?php if ($keyword !== ''): ?>
+                                <a href="senarai_aduan.php?tab=<?php echo e($active_tab); ?>" class="btn btn-light border" title="Kosongkan carian">
+                                    <i class="bi bi-x-lg"></i>
+                                </a>
+                            <?php endif; ?>
+                            <button class="btn btn-primary px-3" type="submit">Cari</button>
                         </div>
-                    </div>
+                    </form>
                 </div>
+
+                <div class="table-responsive">
+                    <table class="table complaint-table mb-0">
+                        <thead>
+                            <tr>
+                                <th class="ps-4">ID Aduan</th>
+                                <th>Tarikh</th>
+                                <th>Jenis</th>
+                                <th style="min-width: 270px;">Aduan</th>
+                                <th>Pertubuhan / Pengadu</th>
+                                <th>Severity</th>
+                                <th>PIC</th>
+                                <th>Status Teknikal</th>
+                                <th class="text-center pe-4">Tindakan</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php if (empty($complaints)): ?>
+                                <tr>
+                                    <td colspan="9">
+                                        <div class="empty-state">
+                                            <i class="bi bi-inbox"></i>
+                                            <h6 class="fw-bold text-secondary">Tiada aduan dijumpai</h6>
+                                            <p class="mb-0 small">Cuba ubah kata kunci carian atau semak tab yang lain.</p>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <?php else: ?>
+                                <?php foreach ($complaints as $complaint): ?>
+                                    <tr>
+                                        <td class="ps-4">
+                                            <span class="fw-bold text-primary">#<?php echo e((string)$complaint['id']); ?></span>
+                                        </td>
+                                        <td class="text-nowrap">
+                                            <?php echo e(formatDateTime($complaint['created_date'])); ?>
+                                        </td>
+                                        <td>
+                                            <span class="badge bg-light text-dark border">
+                                                <?php echo e(getTypeLabel($complaint['type'])); ?>
+                                            </span>
+                                        </td>
+                                        <td>
+                                            <div class="complaint-title mb-1"><?php echo e($complaint['title'] ?: '-'); ?></div>
+                                            <div class="text-muted small"><?php echo e(truncateText($complaint['details'])); ?></div>
+                                        </td>
+                                        <td>
+                                            <div class="fw-semibold text-dark"><?php echo e($complaint['society_no'] ?: '-'); ?></div>
+                                            <div class="text-muted small"><?php echo e($complaint['name'] ?: '-'); ?></div>
+                                        </td>
+                                        <td><?php echo getSeverityBadge($complaint['severity']); ?></td>
+                                        <td>
+                                            <div class="fw-semibold text-dark"><?php echo e($complaint['PIC_name'] ?: '-'); ?></div>
+                                            <?php if (!empty($complaint['assign_date'])): ?>
+                                                <div class="text-muted small">Alir: <?php echo e(formatDateTime($complaint['assign_date'])); ?></div>
+                                            <?php endif; ?>
+                                        </td>
+                                        <td><?php echo getTechnicalStatusBadge($complaint['status_technical']); ?></td>
+                                        <td class="text-center pe-4">
+                                            <a href="view_aduan.php?id=<?php echo urlencode((string)$complaint['id']); ?>" class="btn btn-sm btn-outline-primary rounded-pill px-3 text-nowrap">
+                                                <i class="bi bi-eye me-1"></i>Lihat
+                                            </a>
+                                        </td>
+                                    </tr>
+                                <?php endforeach; ?>
+                            <?php endif; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <?php if ($total_pages > 1): ?>
+                    <div class="d-flex flex-column flex-md-row align-items-md-center justify-content-between gap-3 px-4 py-3 border-top">
+                        <span class="text-muted small">
+                            Halaman <?php echo $current_page; ?> daripada <?php echo $total_pages; ?>
+                        </span>
+
+                        <nav aria-label="Pagination aduan">
+                            <ul class="pagination pagination-sm mb-0">
+                                <li class="page-item <?php echo $current_page <= 1 ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="<?php echo e(buildPageUrl(max(1, $current_page - 1))); ?>">Sebelum</a>
+                                </li>
+
+                                <?php
+                                    $start_page = max(1, $current_page - 2);
+                                    $end_page   = min($total_pages, $current_page + 2);
+                                ?>
+
+                                <?php for ($page = $start_page; $page <= $end_page; $page++): ?>
+                                    <li class="page-item <?php echo $page === $current_page ? 'active' : ''; ?>">
+                                        <a class="page-link" href="<?php echo e(buildPageUrl($page)); ?>"><?php echo $page; ?></a>
+                                    </li>
+                                <?php endfor; ?>
+
+                                <li class="page-item <?php echo $current_page >= $total_pages ? 'disabled' : ''; ?>">
+                                    <a class="page-link" href="<?php echo e(buildPageUrl(min($total_pages, $current_page + 1))); ?>">Seterusnya</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                <?php endif; ?>
             </div>
-        </div>
-    </nav>
-
-    <div class="page-wrapper compact-wrapper" id="pageWrapper">
-        <div class="page-body-wrapper">
-			<div class="page-body">
-			  <!-- Container-fluid starts-->
-				<div class="container-fluid default-dash">
-					<div class="row align-items-stretch">
-
-						<div class="row align-items-stretch">
-							<!-- Kolum 1: Profile Greeting / Cuaca -->
-							<div class="col-xl-4 col-md-4 mb-4">
-								<div class="card profile-greeting overflow-hidden h-100 mb-0" style="border-radius: 20px;">
-									<img id="weather-bg" class="img-fluid bg-img-cover position-absolute top-0 start-0 w-100 h-100" 
-										 style="object-fit: cover; z-index: 0; filter: brightness(0.4) contrast(1.1); transition: all 0.5s ease;" 
-										 src="../assets/images/rosie_hujan.png" alt="Weather Background">
-									
-									<div class="card-body position-relative d-flex flex-column justify-content-between h-100 text-start" style="z-index: 1;">
-										<div class="mt-2">
-											<h1 id="live-time" class="fw-bolder mb-0 text-white" style="font-size: 3.5rem; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-												12:00 <span class="fs-4">PM</span>
-											</h1>
-											<p id="live-date" class="fs-5 fw-medium mb-0" style="color: #f8fafc; text-shadow: 1px 1px 3px rgba(0,0,0,0.6);">
-												Isnin, 1 Januari 2024
-											</p>
-										</div>
-
-										<div class="d-flex align-items-center mt-4 p-3" style="background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;">
-											<div id="weather-icon" class="me-3">
-												<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-													<circle cx="12" cy="12" r="5" fill="#fef08a" stroke="#facc15"></circle>
-													<line x1="12" y1="1" x2="12" y2="3" stroke="#facc15"></line>
-													<line x1="12" y1="21" x2="12" y2="23" stroke="#facc15"></line>
-													<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="#facc15"></line>
-													<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="#facc15"></line>
-													<line x1="1" y1="12" x2="3" y2="12" stroke="#facc15"></line>
-													<line x1="21" y1="12" x2="23" y2="12" stroke="#facc15"></line>
-													<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="#facc15"></line>
-													<line x1="18.36" y1="4.22" x2="19.78" y2="5.64" stroke="#facc15"></line>
-												</svg>
-											</div>
-											<div>
-												<h3 id="weather-temp" class="mb-0 fw-bold text-white">32°C</h3>
-												<p id="weather-desc" class="mb-0 text-white small fw-medium">Cerah & Panas • Kuala Lumpur</p>
-											</div>
-										</div>
-									</div>
-									
-									<div class="shap-block position-absolute" style="z-index: 0;">
-										<div class="rounded-shap"><i></i><i></i><i></i></div>
-									</div>
-								</div>
-							</div>
-
-							<!-- Kolum 2: Sasaran Meja Aduan -->
-							<div class="col-xl-4 col-md-4 mb-4">
-								<div class="card goal-view shadow-sm border-0 rounded-4 h-100 mb-0 d-flex flex-column">
-									<div class="card-header card-no-border d-flex justify-content-between align-items-center pt-4 pb-0 bg-transparent">
-										<h5 class="fw-bold mb-0 text-dark">Sasaran Meja Aduan</h5>
-										<div class="center-content">
-											<span class="badge bg-light text-primary border border-primary-subtle rounded-pill px-3 py-1">Tahun Ini</span>
-										</div>
-										<div class="card-header-right">
-											<ul class="list-unstyled card-option d-flex gap-2 mb-0">
-												<li><i class="icon-more-alt text-secondary"></i></li>
-												<li><i class="icofont icofont-maximize full-card text-secondary"></i></li>
-												<li><i class="icofont icofont-minus minimize-card text-secondary"></i></li>
-											</ul>
-										</div>
-									</div>
-
-									<div class="card-body text-center pt-4 pb-4 flex-grow-1 d-flex flex-column justify-content-center">
-										<div class="profit-goal mb-4">
-											<h2 class="display-5 fw-bolder text-primary mb-1">
-												968<span class="fs-4 text-muted fw-normal mx-1">/</span><span class="fs-4 text-muted fw-normal">1,000</span>
-											</h2>
-											<p class="text-muted fw-medium mb-0">Jumlah Aduan Dijawab / Keseluruhan</p>
-										</div>
-
-										<div class="progress mb-4 mx-3" style="height: 8px; border-radius: 10px;">
-											<div class="progress-bar bg-success" role="progressbar" style="width: 96.8%" aria-valuenow="96.8" aria-valuemin="0" aria-valuemax="100"></div>
-										</div>
-
-										<ul class="goal-list d-flex justify-content-between list-unstyled px-4 mb-0 mt-auto">
-											<li class="text-start">
-												<h4 class="text-success fw-bold mb-1">96.8%</h4>
-												<p class="text-muted small fw-semibold mb-0">Jumlah Selesai</p>
-											</li>
-											<li class="text-end"> 
-												<h4 class="text-info fw-bold mb-1">95%</h4>
-												<p class="text-muted small fw-semibold mb-0">Sasaran (Target)</p>
-											</li>
-										</ul>
-									</div>
-								</div>
-							</div>
-
-							<!-- Kolum 3: Statistik Harian (Digabungkan Menjadi Satu Kad) -->
-							<div class="col-xl-4 col-md-4 mb-4">
-								<!-- Tambah 'text-start' supaya semua teks mula dari kiri -->
-								<div class="card shadow-sm border-0 rounded-4 h-100 mb-0 d-flex flex-column text-start">
-									
-									<!-- Header Kad Harian -->
-									<div class="card-header bg-transparent border-0 pt-4 pb-2">
-										<h5 class="fw-bold mb-0 text-dark">Ringkasan Hari Ini</h5>
-										<p class="text-muted small mb-0">Prestasi aduan setakat jam ini</p>
-									</div>
-
-									<!-- Body Kad Harian -->
-									<!-- Tambah 'align-items-stretch' untuk paksa kotak di dalam meregang -->
-									<div class="card-body flex-grow-1 d-flex flex-column justify-content-evenly align-items-stretch pb-4">
-										
-										<!-- Seksyen 1: Aduan Baru (Biru Lembut) -->
-										<!-- Tambah 'w-100' (width 100%) supaya kotak penuh -->
-										<div class="p-3 rounded-4 w-100" style="background-color: #f0f9ff; border: 1px solid #e0f2fe;">
-											<div class="d-flex justify-content-between align-items-center mb-3">
-												<div>
-													<h6 class="font-roboto text-muted fw-semibold mb-1">Aduan Baru Masuk</h6>
-													<h3 class="mb-0 text-primary fw-bolder">24</h3>
-												</div>
-												<div class="bg-white p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-													<!-- Ikon Dikekalkan -->
-													<svg class="fill-primary" width="30" height="30" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
-														<path d="M9.73709 35.2337C6.17884 31.58 4.00316 26.8452 3.49802 21.7377C1.60687 24.237 0.581465 27.3024 0.586192 30.5195C0.589372 32.612 1.03986 34.692 1.89348 36.5729L0.1333 41.9282C-0.169286 42.8488 0.0517454 43.8484 0.7102 44.5369C1.17358 45.0213 1.78451 45.2794 2.4128 45.2794C2.67714 45.2794 2.94458 45.2337 3.2054 45.14L8.32806 43.2997C10.1272 44.1922 12.1167 44.6631 14.1182 44.6665C17.2557 44.6709 20.2418 43.558 22.657 41.5068C17.8005 41.0474 13.2702 38.8615 9.73709 35.2337Z"></path>
-														<path d="M43.8418 35.7427L41.2863 27.9674C42.5181 25.3348 43.1691 22.407 43.1735 19.4611C43.181 14.3388 41.2854 9.49561 37.8357 5.82369C34.3853 2.15096 29.7875 0.0836476 24.889 0.00251856C19.8097 -0.0814855 15.0354 1.93839 11.446 5.69081C7.85665 9.44332 5.92425 14.4346 6.00469 19.7451C6.08229 24.8661 8.05972 29.673 11.5726 33.2803C15.078 36.8798 19.6988 38.861 24.5879 38.8608C24.5975 38.8608 24.6077 38.8608 24.6171 38.8608C27.435 38.8563 30.2356 38.1757 32.7537 36.8879L40.1911 39.5596C40.501 39.671 40.8188 39.7252 41.1329 39.7252C41.8795 39.7252 42.6055 39.4187 43.1563 38.8428C43.9388 38.0247 44.2014 36.8369 43.8418 35.7427ZM26.3834 26.1731H16.7865C16.0633 26.1731 15.477 25.5601 15.477 24.804C15.477 24.0479 16.0633 23.435 16.7865 23.435H26.3833C27.1066 23.435 27.6929 24.048 27.6929 24.804C27.6929 25.5602 27.1067 26.1731 26.3834 26.1731ZM32.3894 20.5426H16.7866C16.0633 20.5426 15.4771 19.9296 15.4771 19.1736C15.4771 18.4176 16.0634 17.8046 16.7866 17.8046H32.3894C33.1127 17.8046 33.6989 18.4176 33.6989 19.1736C33.6989 19.9296 33.1127 20.5426 32.3894 20.5426ZM32.3894 14.912H16.7866C16.0633 14.912 15.4771 14.299 15.4771 13.543C15.4771 12.7869 16.0634 12.1739 16.7866 12.1739H32.3894C33.1127 12.1739 33.6989 12.787 33.6989 13.543C33.6989 14.299 33.1127 14.912 32.3894 14.912Z"></path>
-													</svg>
-												</div>
-											</div>
-											<!-- Garisan progress diselit dalam kotak -->
-											<div class="progress" style="height: 6px; border-radius: 10px;">
-												<div class="progress-bar bg-primary progress-gradient-primary" role="progressbar" style="width: 100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-											</div>
-										</div>
-
-										<!-- Seksyen 2: Telah Dijawab (Hijau Lembut) -->
-										<!-- Tambah 'w-100' (width 100%) supaya kotak penuh -->
-										<div class="p-3 rounded-4 w-100 mt-3" style="background-color: #f0fdf4; border: 1px solid #dcfce7;">
-											<div class="d-flex justify-content-between align-items-center mb-3">
-												<div>
-													<h6 class="font-roboto text-success fw-semibold mb-1">Telah Dijawab</h6>
-													<h3 class="text-success mb-0 fw-bolder">18</h3>
-												</div>
-												<div class="bg-white p-2 rounded-circle shadow-sm d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
-													<!-- Ikon Dikekalkan -->
-													<svg class="fill-success" width="30" height="30" viewBox="0 0 44 46" xmlns="http://www.w3.org/2000/svg">
-														<path d="M9.73709 35.2337C6.17884 31.58 4.00316 26.8452 3.49802 21.7377C1.60687 24.237 0.581465 27.3024 0.586192 30.5195C0.589372 32.612 1.03986 34.692 1.89348 36.5729L0.1333 41.9282C-0.169286 42.8488 0.0517454 43.8484 0.7102 44.5369C1.17358 45.0213 1.78451 45.2794 2.4128 45.2794C2.67714 45.2794 2.94458 45.2337 3.2054 45.14L8.32806 43.2997C10.1272 44.1922 12.1167 44.6631 14.1182 44.6665C17.2557 44.6709 20.2418 43.558 22.657 41.5068C17.8005 41.0474 13.2702 38.8615 9.73709 35.2337Z"></path>
-														<path d="M43.8418 35.7427L41.2863 27.9674C42.5181 25.3348 43.1691 22.407 43.1735 19.4611C43.181 14.3388 41.2854 9.49561 37.8357 5.82369C34.3853 2.15096 29.7875 0.0836476 24.889 0.00251856C19.8097 -0.0814855 15.0354 1.93839 11.446 5.69081C7.85665 9.44332 5.92425 14.4346 6.00469 19.7451C6.08229 24.8661 8.05972 29.673 11.5726 33.2803C15.078 36.8798 19.6988 38.861 24.5879 38.8608C24.5975 38.8608 24.6077 38.8608 24.6171 38.8608C27.435 38.8563 30.2356 38.1757 32.7537 36.8879L40.1911 39.5596C40.501 39.671 40.8188 39.7252 41.1329 39.7252C41.8795 39.7252 42.6055 39.4187 43.1563 38.8428C43.9388 38.0247 44.2014 36.8369 43.8418 35.7427ZM26.3834 26.1731H16.7865C16.0633 26.1731 15.477 25.5601 15.477 24.804C15.477 24.0479 16.0633 23.435 16.7865 23.435H26.3833C27.1066 23.435 27.6929 24.048 27.6929 24.804C27.6929 25.5602 27.1067 26.1731 26.3834 26.1731ZM32.3894 20.5426H16.7866C16.0633 20.5426 15.4771 19.9296 15.4771 19.1736C15.4771 18.4176 16.0634 17.8046 16.7866 17.8046H32.3894C33.1127 17.8046 33.6989 18.4176 33.6989 19.1736C33.6989 19.9296 33.1127 20.5426 32.3894 20.5426ZM32.3894 14.912H16.7866C16.0633 14.912 15.4771 14.299 15.4771 13.543C15.4771 12.7869 16.0634 12.1739 16.7866 12.1739H32.3894C33.1127 12.1739 33.6989 12.787 33.6989 13.543C33.6989 14.299 33.1127 14.912 32.3894 14.912Z"></path>
-													</svg>
-												</div>
-											</div>
-											<div class="progress" style="height: 6px; border-radius: 10px;">
-												<div class="progress-bar bg-success progress-gradient-success" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-											</div>
-											<div class="mt-2 text-end">
-												<span class="small fw-bold text-success" style="font-size: 0.75rem;">75% Telah Dijawab</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-					
-					<div class="row mt-4">
-						<!-- Kolum Kiri/Tengah: Trend Aduan Bulanan (Kelebaran col-xl-8) -->
-						<div class="col-xl-8 col-lg-12 mb-4">
-							<div class="card shadow-sm border-0 rounded-4 h-100">
-								<!-- Header Kad -->
-								<div class="card-header bg-white border-0 pt-4 pb-0 d-flex justify-content-between align-items-center">
-									<div>
-										<h5 class="fw-bold mb-0 text-dark">Trend Aduan Bulanan</h5>
-										<p class="text-muted small mb-0">Perbandingan Aduan Diterima vs Selesai Dijawab (2024)</p>
-									</div>
-									<div class="dropdown">
-										<button class="btn btn-light btn-sm dropdown-toggle rounded-pill fw-medium" type="button" data-bs-toggle="dropdown">Tahun Ini</button>
-										<!-- Boleh tambah dropdown menu letak tahun 2023, 2022 dsb kat sini nanti -->
-									</div>
-								</div>
-								<!-- Body Kad (Tempat Graf Letak) -->
-								<div class="card-body pb-2">
-									<div id="chart-trend-aduan"></div>
-								</div>
-							</div>
-						</div>
-
-						<!-- Kolum Kanan: Leaderboard Staf Cemerlang (Kelebaran col-xl-4) -->
-						<div class="col-xl-4 col-lg-12 mb-4">
-							<div class="card shadow-sm border-0 rounded-4 h-100" style="background: linear-gradient(to bottom, #ffffff, #f8fafc);">
-								<div class="card-header bg-transparent border-0 pt-4 pb-0">
-									<h5 class="fw-bold mb-0 text-dark">Penyelesai Terpantas</h5>
-									<p class="text-muted small mb-0">Top 3 staf bulan ini</p>
-								</div>
-								<div class="card-body">
-									<div class="d-flex flex-column gap-3">
-										
-										<!-- Ranking No 1 (Warna Emas) -->
-										<div class="d-flex align-items-center p-3 rounded-4 shadow-sm" style="background-color: #fffbeb; border-left: 4px solid #fbbf24;">
-											<div class="position-relative">
-												<!-- Tukar path gambar profile staf jika perlu -->
-												<img src="../assets/images/dashboard/profile.jpg" class="rounded-circle bg-light" width="48" height="48" alt="User" style="object-fit: cover;">
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark border border-white shadow-sm">👑 1</span>
-											</div>
-											<div class="ms-3 flex-grow-1">
-												<h6 class="mb-0 fw-bold">Ahmad Faizal</h6>
-												<span class="text-muted small">Pegawai Meja Bantuan</span>
-											</div>
-											<div class="text-end">
-												<h5 class="mb-0 text-success fw-bolder">142</h5>
-												<span class="small text-muted fw-medium" style="font-size: 0.75rem;">Selesai</span>
-											</div>
-										</div>
-
-										<!-- Ranking No 2 (Warna Perak/Kelabu) -->
-										<div class="d-flex align-items-center p-3 rounded-4 shadow-sm bg-white" style="border-left: 4px solid #94a3b8;">
-											<div class="position-relative">
-												<img src="../assets/images/dashboard/user/2.jpg" class="rounded-circle bg-light" width="48" height="48" alt="User" style="object-fit: cover;">
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary border border-white shadow-sm">2</span>
-											</div>
-											<div class="ms-3 flex-grow-1">
-												<h6 class="mb-0 fw-bold">Siti Nurhaliza</h6>
-												<span class="text-muted small">Unit Teknikal</span>
-											</div>
-											<div class="text-end">
-												<h5 class="mb-0 text-success fw-bolder">98</h5>
-												<span class="small text-muted fw-medium" style="font-size: 0.75rem;">Selesai</span>
-											</div>
-										</div>
-
-										<!-- Ranking No 3 (Warna Gangsa) -->
-										<div class="d-flex align-items-center p-3 rounded-4 shadow-sm bg-white" style="border-left: 4px solid #b45309;">
-											<div class="position-relative">
-												<img src="../assets/images/dashboard/user/3.jpg" class="rounded-circle bg-light" width="48" height="48" alt="User" style="object-fit: cover;">
-												<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill text-white border border-white shadow-sm" style="background-color: #b45309;">3</span>
-											</div>
-											<div class="ms-3 flex-grow-1">
-												<h6 class="mb-0 fw-bold">Ramesh Kumar</h6>
-												<span class="text-muted small">Pegawai Tadbir</span>
-											</div>
-											<div class="text-end">
-												<h5 class="mb-0 text-success fw-bolder">85</h5>
-												<span class="small text-muted fw-medium" style="font-size: 0.75rem;">Selesai</span>
-											</div>
-										</div>
-
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				  
-				  
-				  
-				
-				  
-				  
-					<!--/////////////////////////////////////////////////////SLIDE2-->
-					<div class="row">
-						<div class="col-xl-12">
-						<div class="items-slider">
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="dollar-sign"></i></div>
-								<p>Yearly Invoice</p>
-								<h3>$985k</h3>
-							  </div>
-							</div>
-						  </div>
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="database"></i></div>
-								<p>Yearly Investment</p>
-								<h3>$126k</h3>
-							  </div>
-							</div>
-						  </div>
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="user"></i></div>
-								<p>This Month User</p>
-								<h3>$84k</h3>
-							  </div>
-							</div>
-						  </div>
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="clipboard"></i></div>
-								<p>Launched Product</p>
-								<h3>$1206</h3>
-							  </div>
-							</div>
-						  </div>
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="file-text"></i></div>
-								<p>Yearly Spend</p>
-								<h3>$324k</h3>
-							  </div>
-							</div>
-						  </div>
-						  <div class="col-xl-2 col-lg-4 col-sm-4 des-xsm-50 box-col-33">
-							<div class="card investment-sec">
-							  <div class="animated-bg"><i></i><i></i><i></i></div>
-							  <div class="card-body">
-								<div class="icon"><i data-feather="droplet"></i></div>
-								<p>Yearly Visitors</p>
-								<h3>$2556k</h3>
-							  </div>
-							</div>
-						  </div>
-						</div>
-					  </div>
-					</div>
-					<!--/////////////////////////////////////////////////////SLIDE2-->
-				  
-					<!--/////////////////////////////////////////////////////GRAPH 7 HARI-->
-					<div class="row">
-					  <!--/////////////////////////////////////////////////////GRAPH 7 HARI-->
-						<div class="col-xl-6 col-md-6">
-							<div class="card company-view h-100">
-							  <div class="card-header card-no-border dflex justify-content-between p-b-0">
-								<h5>Sasaran Aduan Harian</h5>
-								<div class="center-content">
-								  <p>7 Hari </p>
-								</div>
-								<div class="card-header-right">
-								  <ul class="list-unstyled card-option">
-									<li><i class="icon-more-alt"></i></li>
-									<li><i class="view-html fa fa-code"></i></li>
-									<li><i class="icofont icofont-maximize full-card"></i></li>
-									<li><i class="icofont icofont-minus minimize-card"></i></li>
-									<li><i class="icofont icofont-refresh reload-card"></i></li>
-									<li><i class="icofont icofont-error close-card"></i></li>
-								  </ul>
-								</div>
-							  </div>
-							  <div class="card-body">
-								<div id="company-viewchart">  </div>
-								<div class="code-box-copy">
-								  <button class="code-box-copy__btn btn-clipboard" data-clipboard-target="#company-view" title="" data-bs-original-title="Copy" aria-label="Copy"><i class="icofont icofont-copy-alt"></i></button>
-								  <pre><code class="language-html" id="company-view">&lt;div class="card company-view"&gt;
-									 &lt;div class="card-header card-no-border dflex justify-content-between p-b-0"&gt;
-									   &lt;h5&gt;Company Overview&lt;/h5&gt;
-										 &lt;div class="center-content"&gt;
-										   &lt;p&gt;Last Year $300K Earning &lt;/p&gt;
-										 &lt;/div&gt;
-										 &lt;div class="card-header-right"&gt;
-										   &lt;ul class="list-unstyled card-option"&gt;
-											 &lt;li&gt;&lt;i class="icon-more-alt"&gt;&lt;/i&gt;&lt;/li&gt;
-											 &lt;li&gt;&lt;i class="view-html fa fa-code"&gt;&lt;/i&gt;&lt;/li&gt;
-											 &lt;li&gt;&lt;i class="icofont icofont-maximize full-card"&gt;&lt;/i&gt;&lt;/li&gt;
-											 &lt;li&gt;&lt;i class="icofont icofont-minus minimize-card"&gt;&lt;/i&gt;&lt;/li&gt;
-											 &lt;li&gt;&lt;i class="icofont icofont-refresh reload-card"&gt;&lt;/i&gt;&lt;/li&gt;
-											 &lt;li&gt;&lt;i class="icofont icofont-error close-card"&gt;&lt;/i&gt;&lt;/li&gt;
-										   &lt;/ul&gt;
-										 &lt;/div&gt;
-									   &lt;/div&gt;
-									 &lt;div class="card-body"&gt;
-									   &lt;div id="company-viewchart"&gt;&lt;/div&gt;
-									 &lt;/div&gt;
-									&lt;/div&gt;</code></pre>
-								</div>
-							  </div>
-							</div>
-						</div>
-					  
-						<!--     /////////////////////////////////////// stats mingguan  -->
-						<div class="col-xl-6 col-md-6">
-							<div class="card h-100">
-							  <div class="card-header p-b-0">
-								<h5>Statistik Mingguan Aduan</h5>
-								<div class="center-content">
-								  <p>Laporan dari 18 April hingga 24 April 2026</p>
-								</div>
-							  </div>
-							  <div class="card-body pt-0 mt-3">
-								<div class="bestselling-table table-responsive">
-								  <table class="table table-bordernone table-hover">
-									<thead>
-									  <tr class="text-center text-muted">
-										<th class="text-start">Tarikh</th>
-										<th>Aduan Masuk</th>
-										<th>Aduan Selesai</th>
-										<th class="text-start">Trend (vs Semalam)</th>
-									  </tr>
-									</thead>
-									<tbody>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">24 Apr</span></td>
-										<td>39</td>
-										<td>15</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-down font-danger me-2"></i> 
-										  <span class="text-danger fw-bold">Turun</span> 
-										  <span class="text-muted f-12">(Semalam: 50)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">23 Apr</span></td>
-										<td>50</td>
-										<td>60</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-down font-danger me-2"></i> 
-										  <span class="text-danger fw-bold">Turun</span> 
-										  <span class="text-muted f-12">(Semalam: 80)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">22 Apr</span></td>
-										<td>80</td>
-										<td>66</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-up font-primary me-2"></i> 
-										  <span class="font-primary fw-bold">Naik</span> 
-										  <span class="text-muted f-12">(Semalam: 61)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">21 Apr</span></td>
-										<td>61</td>
-										<td>46</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-up font-primary me-2"></i> 
-										  <span class="font-primary fw-bold">Naik</span> 
-										  <span class="text-muted f-12">(Semalam: 57)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">20 Apr</span></td>
-										<td>57</td>
-										<td>69</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-up font-primary me-2"></i> 
-										  <span class="font-primary fw-bold">Naik</span> 
-										  <span class="text-muted f-12">(Semalam: 15)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">19 Apr</span></td>
-										<td>15</td>
-										<td>10</td>
-										<td class="text-start">
-										  <i class="fa fa-arrow-up font-primary me-2"></i> 
-										  <span class="font-primary fw-bold">Naik</span> 
-										  <span class="text-muted f-12">(Semalam: 0)</span>
-										</td>
-									  </tr>
-									  <tr class="align-middle text-center">
-										<td class="text-start"><span class="fw-bold text-dark">18 Apr</span></td>
-										<td>0</td>
-										<td>1</td>
-										<td class="text-start">
-										  <span class="text-muted f-12">- Tiada Data -</span>
-										</td>
-									  </tr>
-									</tbody>
-									<tfoot class="border-top">
-									  <tr class="text-center font-primary f-w-700">
-										<td class="text-start pt-3">JUMLAH (7 HARI)</td>
-										<td class="pt-3">302</td>
-										<td class="pt-3">267</td>
-										<td class="text-start pt-3">-</td>
-									  </tr>
-									</tfoot>
-								  </table>
-								</div>
-							  </div>
-							</div>
-						</div>
-					<!--     /////////////////////////////////////// stats mingguan  -->	  
-					</div>
-					<!--/////////////////////////////////////////////////////GRAPH 7 HARI-->
-
-					
-				</div>
-				  
-		   
-			</div>
         </div>
     </div>
+</div>
 
-    <footer class="footer-blue py-4 mt-auto w-100">
-        <div class="container-fluid px-4">
-            <div class="row align-items-center">
-                <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
-                    <p class="mb-0 small">&copy; 2026 Hak Cipta Terpelihara. Sistem Meja Aduan.</p>
-                </div>
-                <div class="col-md-6 text-center text-md-end">
-                    <a href="#" class="text-decoration-none small me-3" style="color: #cbd5e1;">Polisi Privasi</a>
-                    <a href="#" class="text-decoration-none small" style="color: #cbd5e1;">Terma & Syarat</a>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    </body>
-    <!-- latest jquery-->
-    <script src="../assets/js/jquery-3.6.0.min.js"></script>
-    <!-- Bootstrap js-->
-    <script src="../assets/js/bootstrap/bootstrap.bundle.min.js"></script>
-    <!-- feather icon js-->
-    <script src="../assets/js/icons/feather-icon/feather.min.js"></script>
-    <script src="../assets/js/icons/feather-icon/feather-icon.js"></script>
-    <!-- scrollbar js-->
-    <script src="../assets/js/scrollbar/simplebar.js"></script>
-    <script src="../assets/js/scrollbar/custom.js"></script>
-    <!-- Sidebar jquery-->
-    <script src="../assets/js/config.js"></script>
-    <!-- Plugins JS start-->
-    <script src="../assets/js/sidebar-menu.js"></script>
-    <script src="../assets/js/chart/chartist/chartist.js"></script>
-    <script src="../assets/js/chart/chartist/chartist-plugin-tooltip.js"></script>
-    <script src="../assets/js/chart/knob/knob.min.js"></script>
-    <script src="../assets/js/chart/knob/knob-chart.js"></script>
-    <script src="../assets/js/chart/apex-chart/apex-chart.js"></script>
-    <script src="../assets/js/chart/apex-chart/stock-prices.js"></script>
-    <script src="../assets/js/prism/prism.min.js"></script>
-	
-	<script src="../assets/js/datepicker/date-picker/datepicker.js"></script>
-    <script src="../assets/js/datepicker/date-picker/datepicker.en.js"></script>
-    <script src="../assets/js/datepicker/date-picker/datepicker.custom.js"></script>
-	  <script src="../assets/js/counter/jquery.waypoints.min.js"></script>
-    <script src="../assets/js/counter/jquery.counterup.min.js"></script>
-    <script src="../assets/js/counter/counter-custom.js"></script>
-	
-    <script src="../assets/js/clipboard/clipboard.min.js"></script>
-    <script src="../assets/js/custom-card/custom-card.js"></script>
-    <script src="../assets/js/notify/bootstrap-notify.min.js"></script>
-    <script src="../assets/js/dashboard/default.js"></script>
-    <script src="../assets/js/notify/index.js"></script>
-    <script src="../assets/js/slick-slider/slick.min.js"></script>
-    <script src="../assets/js/slick-slider/slick-theme.js"></script>
-    <script src="../assets/js/typeahead/handlebars.js"></script>
-    <script src="../assets/js/typeahead/typeahead.bundle.js"></script>
-    <script src="../assets/js/typeahead/typeahead.custom.js"></script>
-    <script src="../assets/js/typeahead-search/handlebars.js"></script>
-    <script src="../assets/js/typeahead-search/typeahead-custom.js"></script>
-	
-	<script src="../assets/js/dashboard/dashboard_2.js"></script>
-    <script src="../assets/js/general-widget.js"></script>
-    <script src="../assets/js/height-equal.js"></script>
-    <script src="../assets/js/tooltip-init.js"></script>
-	
-    <!-- Plugins JS Ends-->
-    <!-- Theme js-->
-    <script src="../assets/js/script.js"></script>
-    <script src="../assets/js/theme-customizer/customizer.js"></script>
-    <!-- login js-->
-    <!-- Plugin used-->
-	
-	
-	<!--custom-->
-	<script>
-		// 1. Data Ikon dan Gambar Background berdasarkan cuaca
-		const weatherData = {
-			cerah: {
-				bg: '../assets/images/dashboard/weather/ceria.png', // Gambar karakter senyum ceria
-				temp: '32°C',
-				desc: 'Cerah & Panas • Kuala Lumpur',
-				icon: `
-					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-						<circle cx="12" cy="12" r="5" fill="#fef08a" stroke="#facc15"></circle>
-						<line x1="12" y1="1" x2="12" y2="3" stroke="#facc15"></line>
-						<line x1="12" y1="21" x2="12" y2="23" stroke="#facc15"></line>
-						<line x1="4.22" y1="4.22" x2="5.64" y2="5.64" stroke="#facc15"></line>
-						<line x1="18.36" y1="18.36" x2="19.78" y2="19.78" stroke="#facc15"></line>
-						<line x1="1" y1="12" x2="3" y2="12" stroke="#facc15"></line>
-						<line x1="21" y1="12" x2="23" y2="12" stroke="#facc15"></line>
-						<line x1="4.22" y1="19.78" x2="5.64" y2="18.36" stroke="#facc15"></line>
-						<line x1="18.36" y1="4.22" x2="19.78" y2="5.64" stroke="#facc15"></line>
-					</svg>`
-			},
-			mendung: {
-				bg: '../assets/images/dashboard/weather/monyok.png', // Gambar karakter monyok/sedih
-				temp: '26°C',
-				desc: 'Mendung Berawan • Kuala Lumpur',
-				icon: `
-					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M17.5 19H9a4 4 0 1 1 0-8h1.5a5.5 5.5 0 0 1 9.5 4a2.5 2.5 0 0 1-2.5 4z" fill="#cbd5e1" stroke="#94a3b8"></path>
-					</svg>`
-			},
-			hujan: {
-				bg: '../assets/images/rosie_hujan.png', // Gambar karakter berlindung hujan/payung
-				temp: '23°C',
-				desc: 'Hujan Lebat • Putrajaya',
-				icon: `
-					<svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-						<path d="M17.5 19H9a4 4 0 1 1 0-8h1.5a5.5 5.5 0 0 1 9.5 4a2.5 2.5 0 0 1-2.5 4z" fill="#94a3b8" stroke="#64748b"></path>
-						<path d="M8 19v2" stroke="#60a5fa"></path>
-						<path d="M12 19v2" stroke="#60a5fa"></path>
-						<path d="M16 19v2" stroke="#60a5fa"></path>
-					</svg>`
-			}
-		};
-
-		// 2. Fungsi untuk kemas kini cuaca
-		function updateWeatherDisplay(condition) {
-			const data = weatherData[condition];
-			if(!data) return;
-
-			document.getElementById('weather-bg').src = data.bg;
-			document.getElementById('weather-icon').innerHTML = data.icon;
-			document.getElementById('weather-temp').innerText = data.temp;
-			document.getElementById('weather-desc').innerText = data.desc;
-		}
-
-		// 3. Fungsi Jam Live (Kekal dari sebelum ini)
-		function updateClockWidget() {
-			const now = new Date();
-			let hours = now.getHours();
-			let minutes = now.getMinutes();
-			let ampm = hours >= 12 ? 'PM' : 'AM';
-			hours = hours % 12;
-			hours = hours ? hours : 12;
-			minutes = minutes < 10 ? '0' + minutes : minutes;
-			
-			const days = ['Ahad', 'Isnin', 'Selasa', 'Rabu', 'Khamis', 'Jumaat', 'Sabtu'];
-			const months = ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'];
-			
-			document.getElementById('live-time').innerHTML = `${hours}:${minutes} <span class="fs-4">${ampm}</span>`;
-			document.getElementById('live-date').innerText = `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
-		}
-
-		setInterval(updateClockWidget, 1000);
-		updateClockWidget();
-
-		// ==========================================
-		// CARA GUNA (Ujian):
-		// Panggil fungsi ini bila dapat data cuaca dari API atau database.
-		// Buat masa ni kita set 'cerah' sebagai default.
-		// Cuba tukar ke 'hujan' atau 'mendung' untuk tengok pertukaran tu.
-		// ==========================================
-		updateWeatherDisplay('hujan'); 
-
-	</script>
-	
-	<script>
-	document.addEventListener("DOMContentLoaded", function() {
-		
-		// Tetapan untuk Graf Trend Aduan Bulanan
-		var optionsTrend = {
-			series: [{
-				name: 'Aduan Baru (Masuk)',
-				data: [45, 52, 38, 85, 60, 45, 70, 65, 55, 40, 50, 62] // Array data aduan masuk
-			}, {
-				name: 'Telah Dijawab (Selesai)',
-				data: [40, 48, 38, 80, 55, 40, 65, 60, 50, 38, 45, 55] // Array data aduan selesai
-			}],
-			chart: {
-				type: 'area',
-				height: 320,
-				toolbar: { show: false }, // Sorok butang zoom/download bagi nampak clean
-				fontFamily: 'inherit'
-			},
-			colors: ['#f59e0b', '#10b981'], // Oren untuk Aduan Masuk, Hijau untuk Selesai
-			dataLabels: { enabled: false }, // Sorok label nombor atas graf
-			stroke: {
-				curve: 'smooth', // Garisan berombak lembut
-				width: 2
-			},
-			fill: {
-				type: 'gradient',
-				gradient: {
-					shadeIntensity: 1,
-					opacityFrom: 0.4,
-					opacityTo: 0.05,
-					stops: [0, 90, 100]
-				}
-			},
-			xaxis: {
-				categories: ['Jan', 'Feb', 'Mac', 'Apr', 'Mei', 'Jun', 'Jul', 'Ogo', 'Sep', 'Okt', 'Nov', 'Dis'],
-				axisBorder: { show: false },
-				axisTicks: { show: false },
-				labels: {
-					style: { colors: '#64748b', fontWeight: 500 }
-				}
-			},
-			yaxis: {
-				labels: {
-					style: { colors: '#64748b' }
-				}
-			},
-			grid: {
-				borderColor: '#f1f5f9',
-				strokeDashArray: 4, // Garisan grid putus-putus nampak moden
-				xaxis: { lines: { show: true } },   
-				yaxis: { lines: { show: true } },
-			},
-			legend: {
-				position: 'top',
-				horizontalAlign: 'right',
-				offsetY: -20
-			},
-			tooltip: {
-				theme: 'light',
-				y: {
-					formatter: function (val) {
-						return val + " aduan"
-					}
-				}
-			}
-		};
-
-		var chartTrend = new ApexCharts(document.querySelector("#chart-trend-aduan"), optionsTrend);
-		chartTrend.render();
-	});
-	</script>
-	
-</html>
+<?php include 'includes/footer.php'; ?>

@@ -15,18 +15,7 @@ $complaint = [];
 
 if ($aduan_id > 0) {
     $sql_aduan = "SELECT 
-                id, 
-                title, 
-                details, 
-                severity, 
-                status_technical, 
-                assign_date, 
-                PIC, 
-                PIC_name, 
-                note, 
-                finish_date, 
-                tech_feedback,
-                created_date
+                *
             FROM eroses_complaint.feedback 
             WHERE id = ? 
             LIMIT 1";

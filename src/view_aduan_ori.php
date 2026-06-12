@@ -10,7 +10,7 @@ if ($target_id === 0) {
     // Bos boleh tukar 'senarai_aduan.php' ke page jadual utama bos
     echo "<script>
             alert('Makluman: Sila pilih aduan dari senarai terlebih dahulu.'); 
-            window.location.href = 'index.php'; 
+            window.location.href = 'senarai_aduan.php.php'; 
           </script>";
     exit(); // Wajib exit supaya kod HTML kat bawah tak di-render
 }
@@ -104,90 +104,6 @@ $teks_substatus = $statusEnum[$kod_substatus] ?? $kod_substatus;
 $kod_application = (string)($pertubuhan['application_status_code'] ?? '');
 $teks_application = $statusEnum[$kod_application] ?? $kod_application;
 
-// ==========================================================
-// 5. DATA PAPARAN UNTUK PANEL KIRI
-// ==========================================================
-function escapeHtml($value) {
-    return htmlspecialchars((string)($value ?? ''), ENT_QUOTES, 'UTF-8');
-}
-
-function displayField($value, $fallback = '-') {
-    return ($value !== null && $value !== '') ? escapeHtml($value) : $fallback;
-}
-
-$typeLabels = [
-    'ISU_SISTEM'  => 'Isu Sistem',
-    'MAKLUM_BALAS'=> 'Maklum Balas',
-];
-
-$identificationTypeLabels = [
-    '1' => 'MyKad',
-    '2' => 'Pasport',
-    '3' => 'Lain-lain',
-];
-
-$genderLabels = [
-    'L' => 'Lelaki',
-    'P' => 'Perempuan',
-];
-
-$complaintType = $typeLabels[(string)($complaint['type'] ?? '')] ?? ($complaint['type'] ?? '-');
-$identificationType = $identificationTypeLabels[(string)($complaint['identification_type'] ?? '')] ?? ($complaint['identification_type'] ?? '-');
-$genderDisplay = $genderLabels[(string)($complaint['gender'] ?? '')] ?? ($complaint['gender'] ?? '-');
-$stateDisplay = $complaint['state_name'] ?? $complaint['nama_negeri'] ?? $complaint['state_id'] ?? '-';
-$branchDisplay = $complaint['branch_name'] ?? $complaint['nama_cawangan'] ?? $complaint['current_assigned_branch_id'] ?? '-';
-
-$receivedDurationDays = '-';
-if (!empty($complaint['created_date'])) {
-    $receivedStart = strtotime($complaint['created_date']);
-    $receivedEnd = !empty($complaint['assign_date']) ? strtotime($complaint['assign_date']) : time();
-    if ($receivedStart !== false && $receivedEnd !== false) {
-        $receivedDurationDays = max(0, (int) floor(($receivedEnd - $receivedStart) / 86400));
-    }
-}
-
-$slaHoursMap = [
-    'HIGH'   => 4,
-    'MEDIUM' => 48,
-    'LOW'    => 12,
-];
-$severity = strtoupper((string)($complaint['severity'] ?? ''));
-$slaLimitHours = $slaHoursMap[$severity] ?? null;
-$slaUsedHours = null;
-if (!empty($complaint['assign_date'])) {
-    $slaStart = strtotime($complaint['assign_date']);
-    $slaEnd = (!empty($complaint['finish_date']) && $complaint['finish_date'] !== '0000-00-00 00:00:00')
-        ? strtotime($complaint['finish_date'])
-        : time();
-    if ($slaStart !== false && $slaEnd !== false) {
-        $slaUsedHours = max(0, round(($slaEnd - $slaStart) / 3600, 2));
-    }
-}
-
-$severityClass = 'bg-secondary';
-if ($severity === 'HIGH' || $severity === 'SEVERE') {
-    $severityClass = 'bg-danger';
-} elseif ($severity === 'MEDIUM') {
-    $severityClass = 'bg-warning text-dark';
-} elseif ($severity === 'LOW') {
-    $severityClass = 'bg-success';
-}
-
-$statusTechnical = strtoupper((string)($complaint['status_technical'] ?? ''));
-$statusTechnicalDisplay = 'Belum Ditentukan';
-$statusTechnicalClass = 'bg-secondary bg-opacity-10 text-secondary';
-if ($statusTechnical === 'ASSIGNED') {
-    $statusTechnicalDisplay = 'Dalam Tindakan';
-    $statusTechnicalClass = 'badge-soft-warning';
-} elseif ($statusTechnical === 'ANSWERED') {
-    $statusTechnicalDisplay = 'Telah Dijawab';
-    $statusTechnicalClass = 'badge-soft-success';
-}
-
-$activeRightTab = $_GET['tab'] ?? 'fixissue';
-if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
-    $activeRightTab = 'fixissue';
-}
 
 ?>
     
@@ -198,7 +114,7 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 			<div class="col-xl-4 col-lg-4 left-scroll flex-shrink-0">
                 
 				<div class="d-flex align-items-center justify-content-between mb-3 pt-3">
-					<a class="d-flex align-items-center gap-2 text-decoration-none" href="index.php">
+					<a class="d-flex align-items-center gap-2 text-decoration-none" href="senarai_aduan.php">
 						<div class="text-white rounded-3 d-flex align-items-center justify-content-center shadow-sm" style="width: 32px; height: 32px; background-color: var(--accent-blue); transition: all 0.2s;" onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'">
 							<i class="bi bi-chevron-left" style="font-size: 0.9rem;"></i>
 						</div>
@@ -207,112 +123,65 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 					<div class="d-flex align-items-center bg-warning bg-opacity-10 border border-warning-subtle rounded-pill px-3 py-1 shadow-sm">
 						<div class="spinner-grow text-warning me-2" role="status" style="width: 8px; height: 8px; animation-duration: 1.5s;"></div>
 						<span class="text-warning-emphasis fw-bold" style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.5px;">
-							<i class="bi bi-person-fill me-1"></i>Tindakan: <?php echo !empty($complaint['PIC_name']) ? escapeHtml($complaint['PIC_name']) : 'Tiada'; ?>
+							<i class="bi bi-person-fill me-1"></i>Tindakan: <?php echo !empty($complaint['PIC_name']) ? htmlspecialchars($complaint['PIC_name']) : 'Tiada'; ?>
 						</span>
 					</div>
 				</div>
 
 				<div class="card">
 					<div class="card-header d-flex justify-content-between align-items-center">
+						<?php 
+							$status_tech_display = 'Telah Dialir';
+							$status_badge_class = 'badge-soft-warning';
+							
+							if (isset($complaint['status_technical']) && $complaint['status_technical'] == 'ANSWERED') { 
+								$status_tech_display = 'Telah Dijawab'; 
+								$status_badge_class = 'badge-soft-success';
+							}
+						?>
 						<h6 class="mb-0"><i class="bi bi-file-earmark-text me-2"></i>Maklumat Aduan</h6>
-						<span class="badge rounded-pill <?php echo escapeHtml($statusTechnicalClass); ?>"><?php echo escapeHtml($statusTechnicalDisplay); ?></span>
+						<span class="badge rounded-pill <?php echo $status_badge_class; ?>"><?php echo $status_tech_display; ?></span>
 					</div>
 					<div class="card-body">
 						<div class="mb-3 border-bottom pb-2">
 							<label class="form-label">No. Aduan (ID)</label>
-							<div class="form-control-plaintext text-primary fs-5"><?php echo displayField($complaint['id'] ?? null); ?></div>
+							<div class="form-control-plaintext text-primary fs-5"><?php echo htmlspecialchars($complaint['id'] ?? ''); ?></div>
 						</div>
 						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Tarikh dan Masa Aduan Dihantar</label>
+							<label class="form-label">Tarikh Aduan</label>
 							<div class="form-control-plaintext text-dark">
 								<?php echo !empty($complaint['created_date']) ? date('d/m/Y, h:i A', strtotime($complaint['created_date'])) : '-'; ?>
 							</div>
 						</div>
 						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Tempoh Aduan Diterima (Hari)</label>
-							<div class="form-control-plaintext text-dark"><?php echo escapeHtml($receivedDurationDays); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Jenis</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($complaintType); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
 							<label class="form-label">Tajuk Aduan</label>
 							<div class="form-control-plaintext fw-bold text-dark" style="font-size: 0.95rem; line-height: 1.4;">
-								<?php echo displayField($complaint['title'] ?? null); ?>
+								<?php echo htmlspecialchars($complaint['title'] ?? ''); ?>
 							</div>
 						</div>
 						<div class="mb-3 border-bottom pb-2">
 							<label class="form-label">Perihal Aduan</label>
 							<div class="form-control-plaintext fw-normal text-muted" style="font-size: 0.85rem; white-space: pre-line; line-height: 1.5;">
-								<?php echo displayField($complaint['details'] ?? null); ?>
+								<?php echo htmlspecialchars($complaint['details'] ?? ''); ?>
 							</div>
 						</div>
 						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Negeri</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($stateDisplay); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">No. Pertubuhan</label>
+							<label class="form-label">No Pertubuhan</label>
 							<div class="form-control-plaintext fw-bold text-dark" style="font-size: 0.95rem; line-height: 1.4;">
-								<?php echo displayField($complaint['society_no'] ?? null); ?>
+								PPM-012-13-01121998
 							</div>
 						</div>
 						<div class="mb-0">
-							<label class="form-label">Lampiran</label>
+							<label class="form-label">Keutamaan (Severity)</label>
+							<?php 
+								$sev = $complaint['severity'] ?? '';
+								$severity_class = 'bg-secondary';
+								if ($sev == 'HIGH' || $sev == 'SEVERE') { $severity_class = 'bg-danger'; }
+								else if ($sev == 'MEDIUM') { $severity_class = 'bg-warning text-dark'; }
+							?>
 							<div class="form-control-plaintext">
-								<?php if (!empty($attachments) && is_array($attachments)): ?>
-									<?php foreach ($attachments as $attachment): ?>
-										<?php
-											$attachmentUrl = $attachment['url'] ?? $attachment['file_url'] ?? '#';
-											$attachmentName = $attachment['filename'] ?? $attachment['file_name'] ?? 'Lihat Lampiran';
-										?>
-										<a href="<?php echo escapeHtml($attachmentUrl); ?>" target="_blank" rel="noopener" class="btn btn-sm btn-outline-primary me-1 mb-1">
-											<i class="bi bi-paperclip me-1"></i><?php echo escapeHtml($attachmentName); ?>
-										</a>
-									<?php endforeach; ?>
-								<?php else: ?>
-									<span class="text-muted opacity-75"><i>Tiada dokumen tersedia.</i></span>
-								<?php endif; ?>
+								<span class="badge <?php echo $severity_class; ?> px-3 py-1"><?php echo htmlspecialchars($sev); ?></span>
 							</div>
-						</div>
-					</div>
-				</div>
-
-				<div class="card">
-					<div class="card-header"><h6 class="mb-0"><i class="bi bi-person-vcard me-2"></i>Maklumat Penghantar</h6></div>
-					<div class="card-body">
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Nama Penuh</label>
-							<div class="form-control-plaintext text-dark fw-bold"><?php echo displayField($complaint['name'] ?? null); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Jenis Pengenalan Diri</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($identificationType); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">No. Pengenalan Diri</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($complaint['identification_no'] ?? null); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Jantina</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($genderDisplay); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">E-mel</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($complaint['email'] ?? null); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Nombor Telefon</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($complaint['contact_no'] ?? null); ?></div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Telefon Rumah</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($complaint['home_contact_no'] ?? null); ?></div>
-						</div>
-						<div class="mb-0">
-							<label class="form-label">Cawangan JPPM</label>
-							<div class="form-control-plaintext text-dark"><?php echo displayField($branchDisplay); ?></div>
 						</div>
 					</div>
 				</div>
@@ -327,41 +196,15 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 							</div>
 						</div>
 						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Keutamaan (Severity)</label>
-							<div class="form-control-plaintext">
-								<span class="badge <?php echo escapeHtml($severityClass); ?> px-3 py-1"><?php echo displayField($severity); ?></span>
-							</div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
-							<label class="form-label">Tempoh Aduan / SLA</label>
-							<div class="form-control-plaintext text-dark">
-								<?php if ($slaUsedHours !== null && $slaLimitHours !== null): ?>
-									<span class="fw-bold"><?php echo escapeHtml(number_format($slaUsedHours, 2)); ?></span>
-									<span class="text-muted"> / <?php echo escapeHtml($slaLimitHours); ?> jam</span>
-								<?php elseif ($slaUsedHours !== null): ?>
-									<span class="fw-bold"><?php echo escapeHtml(number_format($slaUsedHours, 2)); ?> jam</span>
-									<span class="text-muted"> / SLA tidak ditetapkan</span>
-								<?php else: ?>
-									-
-								<?php endif; ?>
-							</div>
-						</div>
-						<div class="mb-3 border-bottom pb-2">
 							<label class="form-label">Pegawai Bertanggungjawab (PIC)</label>
 							<div class="form-control-plaintext text-dark fw-bold">
-								<?php
-									$picDisplay = trim((string)($complaint['PIC'] ?? ''));
-									if (!empty($complaint['PIC_name'])) {
-										$picDisplay .= ($picDisplay !== '' ? ' - ' : '') . $complaint['PIC_name'];
-									}
-									echo displayField($picDisplay);
-								?>
+								<?php echo htmlspecialchars($complaint['PIC'] ?? '') . ' - ' . htmlspecialchars($complaint['PIC_name'] ?? ''); ?>
 							</div>
 						</div>
 						<div class="mb-0">
 							<label class="form-label">Catatan Pegawai</label>
 							<div class="form-control-plaintext fw-normal text-muted" style="font-size: 0.85rem; white-space: pre-line;">
-								<?php echo !empty($complaint['note']) ? escapeHtml($complaint['note']) : '<span class="text-muted opacity-50"><i>Tiada catatan.</i></span>'; ?>
+								<?php echo !empty($complaint['note']) ? htmlspecialchars($complaint['note']) : '<span class="text-muted opacity-50"><i>Tiada catatan.</i></span>'; ?>
 							</div>
 						</div>
 					</div>
@@ -381,9 +224,9 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 							</div>
 						</div>
 						<div class="mb-0">
-							<label class="form-label">Jawapan / Maklum Balas Teknikal</label>
+							<label class="form-label">Jawapan / Maklumbalas Teknikal</label>
 							<div class="bg-light p-3 rounded-3 mt-1 text-dark" style="font-size: 0.88rem; white-space: pre-line; border-left: 4px solid var(--accent-blue);">
-								<?php echo !empty($complaint['tech_feedback']) ? escapeHtml($complaint['tech_feedback']) : '<span class="text-muted"><i>Menunggu jawapan teknikal...</i></span>'; ?>
+								<?php echo !empty($complaint['tech_feedback']) ? htmlspecialchars($complaint['tech_feedback']) : '<span class="text-muted"><i>Menunggu jawapan teknikal...</i></span>'; ?>
 							</div>
 						</div>
 					</div>
@@ -497,17 +340,17 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 
 					<ul class="nav nav-tabs custom-teal-tabs mb-4" id="rightPanelTabs" role="tablist">
 						<li class="nav-item" role="presentation">
-							<button class="nav-link <?php echo $activeRightTab === 'pertubuhan' ? 'active' : 'text-muted'; ?> fw-bold py-3 px-4" style="font-size: 1.05rem;" id="pertubuhan-tab" data-bs-toggle="tab" data-bs-target="#tab-pertubuhan" type="button" role="tab" aria-controls="tab-pertubuhan" aria-selected="<?php echo $activeRightTab === 'pertubuhan' ? 'true' : 'false'; ?>">
+							<button class="nav-link active fw-bold py-3 px-4" style="font-size: 1.05rem;" id="pertubuhan-tab" data-bs-toggle="tab" data-bs-target="#tab-pertubuhan" type="button" role="tab" aria-controls="tab-pertubuhan" aria-selected="true">
 								<i class="bi bi-building me-2 fs-5"></i>Maklumat Pertubuhan
 							</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link <?php echo $activeRightTab === 'fixissue' ? 'active' : 'text-muted'; ?> fw-bold py-3 px-4" style="font-size: 1.05rem;" id="fixissue-tab" data-bs-toggle="tab" data-bs-target="#tab-fixissue" type="button" role="tab" aria-controls="tab-fixissue" aria-selected="<?php echo $activeRightTab === 'fixissue' ? 'true' : 'false'; ?>">
+							<button class="nav-link fw-bold text-muted py-3 px-4" style="font-size: 1.05rem;" id="fixissue-tab" data-bs-toggle="tab" data-bs-target="#tab-fixissue" type="button" role="tab" aria-controls="tab-fixissue" aria-selected="false">
 								<i class="bi bi-tools me-2 fs-5"></i>Fix Issue
 							</button>
 						</li>
 						<li class="nav-item" role="presentation">
-							<button class="nav-link <?php echo $activeRightTab === 'tba' ? 'active' : 'text-muted'; ?> fw-bold py-3 px-4" style="font-size: 1.05rem;" id="tba-tab" data-bs-toggle="tab" data-bs-target="#tab-tba" type="button" role="tab" aria-controls="tab-tba" aria-selected="<?php echo $activeRightTab === 'tba' ? 'true' : 'false'; ?>">
+							<button class="nav-link fw-bold text-muted py-3 px-4" style="font-size: 1.05rem;" id="tba-tab" data-bs-toggle="tab" data-bs-target="#tab-tba" type="button" role="tab" aria-controls="tab-tba" aria-selected="false">
 								<i class="bi bi-clock-history me-2 fs-5"></i>TBA
 							</button>
 						</li>
@@ -515,14 +358,13 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 
 					<div class="tab-content" id="rightPanelTabsContent">
 						
-						<div class="tab-pane fade <?php echo $activeRightTab === 'pertubuhan' ? 'show active' : ''; ?>" id="tab-pertubuhan" role="tabpanel" aria-labelledby="pertubuhan-tab">
+						<div class="tab-pane fade show active" id="tab-pertubuhan" role="tabpanel" aria-labelledby="pertubuhan-tab">
 							<div class="card bg-primary bg-opacity-10 border-primary border-opacity-25 mb-4 w-100" style="z-index: 100;">
 								<div class="card-body p-3 p-md-4">
 									<label class="fw-bold text-primary mb-2">Carian Pangkalan Data Pertubuhan</label>
 									
 									<form method="GET" action="view_aduan.php" class="position-relative w-100">
 										<input type="hidden" name="id" value="<?php echo htmlspecialchars($aduan_id); ?>">
-										<input type="hidden" name="tab" value="pertubuhan">
 										
 										<div class="input-group shadow-sm w-100" style="height: 50px;">
 											<span class="input-group-text bg-white border-end-0 px-3"><i class="bi bi-search text-muted"></i></span>
@@ -959,7 +801,7 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 							
 
 						</div> 
-						<div class="tab-pane fade <?php echo $activeRightTab === 'fixissue' ? 'show active' : ''; ?>" id="tab-fixissue" role="tabpanel" aria-labelledby="fixissue-tab">
+						<div class="tab-pane fade" id="tab-fixissue" role="tabpanel" aria-labelledby="fixissue-tab">
             
 							<div class="input-group mb-4 shadow-sm">
 								<span class="input-group-text bg-white border-end-0 py-3"><i class="bi bi-search text-muted"></i></span>
@@ -1078,7 +920,7 @@ if (!in_array($activeRightTab, ['fixissue', 'pertubuhan', 'tba'], true)) {
 						</div>
 
 						
-						<div class="tab-pane fade <?php echo $activeRightTab === 'tba' ? 'show active' : ''; ?>" id="tab-tba" role="tabpanel" aria-labelledby="tba-tab">
+						<div class="tab-pane fade" id="tab-tba" role="tabpanel" aria-labelledby="tba-tab">
 							<div class="card shadow-sm border-0 bg-light text-center" style="min-height: 400px;">
 								<div class="card-body d-flex flex-column align-items-center justify-content-center p-5">
 									<i class="bi bi-clock-history text-muted opacity-25 mb-3" style="font-size: 5rem;"></i>
